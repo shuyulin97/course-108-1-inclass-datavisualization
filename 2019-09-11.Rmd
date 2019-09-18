@@ -264,15 +264,146 @@ summarise(StuDF,
 ```
 
 
+```{r}
+## 男女調分不同:分不同group
+# 各加其群組之「最高減最低分除以5」
+mutate(
+  StuDF_by性別,
+  最高分=max(成績),
+  最低分=min(成績),
+  調分大小=(最高分-最低分)/5,
+  調分後成績=成績+調分大小
+) -> StuDF_依性別調分
+StuDF_依性別調分
+```
+
+```{r}
+# 依性別&成績分
+# 依性別及成績是否大於75分：
+group_by(StuDF,
+         性別,
+         (成績>75)) -> StuDF_by性別成績 #分群條件以逗號分隔
+
+summarise(StuDF_by性別成績,
+          平均成績=mean(成績),
+          人數=n())
+```
+
+```{r}
+##ungroup
+ungroup(StuDF_依性別調分) -> 
+  StuDF_調分後
+```
+
+```{r}
+##計算collegeData中不同縣市名稱,體系別,等級別的一年級男生及一年級女生總數（使用sum）和學校數目。
+#分群不同縣市名稱及體系別
+collegeData_group <- group_by(collegeData,
+                              縣市名稱,
+                              體系別,
+                              等級別)
 
 
+#計算
+summarise(collegeData_group,
+          一年級男生總數 = sum(一年級男生),
+          一年級女生總數 = sum(一年級女生),
+          學校數目 = n())
+
+summarise(collegeData_group,
+          一年級男生總數 = sum(一年級男生),
+          一年級女生總數 = sum(一年級女生),
+          學校數目 = length(unique(學校名稱))
+```
+### pipe
+```{r}
+#不用pipe
+group_by(StuDF,
+         性別) -> StuDF_by性別
+
+mutate(
+  StuDF_by性別,
+  最高分=max(成績),
+  最低分=min(成績),
+  調分大小=(最高分-最低分)/5,
+  調分後成績=成績+調分大小
+) -> StuDF_依性別調分
+
+ungroup(StuDF_依性別調分) -> 
+  StuDF_調分後
+```
+
+##使用pipe
+#原則1:%>% 把它左邊（LHS）的物件流入它右邊（RHS）函數的argument第一個位置
+```{r}
+s# group_by(StuDF,
+#          性別) -> StuDF_by性別
+StuDF %>% group_by(
+         性別) -> StuDF_by性別
+
+# mutate(
+#   StuDF_by性別,
+#   最高分=max(成績),
+#   最低分=min(成績),
+#   調分大小=(最高分-最低分)/5,
+#   調分後成績=成績+調分大小
+# ) -> StuDF_依性別調分
+
+StuDF_by性別 %>%
+mutate(
+  最高分=max(成績),
+  最低分=min(成績),
+  調分大小=(最高分-最低分)/5,
+  調分後成績=成績+調分大小
+) -> StuDF_依性別調分
 
 
+# ungroup(StuDF_依性別調分) -> 
+#   StuDF_調分後
+StuDF_依性別調分 %>% ungroup() -> 
+  StuDF_調分後
+```
 
+#原則3:%>% 可進行串接，則下一個%>%會以上個函數輸出結果當做新的LHS物件
+```{r}
 
+StuDF %>% group_by(
+         性別)  %>%
+mutate(
+  最高分=max(成績),
+  最低分=min(成績),
+  調分大小=(最高分-最低分)/5,
+  調分後成績=成績+調分大小
+)  %>% ungroup() -> 
+  StuDF_調分後
+```
 
+```{r}
+#將collegeData，
+#依等級別,縣市名稱分群後,
 
+collegeData %>%
+  group_by(等級別,縣市名稱) %>%
+  summarise(一年級男女比例 = sum(一年級男生)/ sum(一年級女生)) %>%
+  summarise(等級別=which.max(一年級男女比例),
+            縣市別=which.max(一年級男女比例))
 
+#計算一年級男/女生比例後,
+
+#找出男女生比例最高的等級別,縣市名稱組合。
+```
+
+```{r}
+load(url("https://www.dropbox.com/s/duh5aaqgl2f5m3z/loopTranscriptData.Rda?raw=1"))
+```
+
+```{r}
+#計算每位學生每學期的平均成績。
+
+#計算每位學生每學期學分數在必/選/通 三類的學分數比重。
+
+#學屆為100（即100學年入學）的學生，各系學生在學所修總學分數之中位數，何系最高？
+```
 
 
 

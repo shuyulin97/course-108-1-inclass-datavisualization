@@ -2,7 +2,7 @@
 title: "課堂練習20190918"
 author: "ShuYu"
 date: "2019年9月18日"
-output: html_document
+output: html_notebook
 ---
 
 ```{r setup, include=FALSE}
@@ -81,7 +81,7 @@ tail(StuDF)
 ```{r}
 ##slice:切割資料
 StuDF
-slice(StuDF,1:3) #第1筆到第3筆資料
+slice(StuDF,1:3) #第1筆到第3筆資料(冒號代表連續選取)
 slice(StuDF,4:5)
 slice(StuDF,n()) #計算目前所使用的dataframe有多少資料
 slice(StuDF,(n()-1):n()) #第n-1筆到第n筆(倒數2筆)
@@ -99,6 +99,10 @@ slice(StuDF,c(-5,-6,-7))
 slice(StuDF,c(1,4,8))
 ```
 
+```{r}
+library(readr)
+collegeData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/103_student.csv")
+```
 
 
 

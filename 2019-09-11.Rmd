@@ -159,14 +159,109 @@ select(collegeData,
 ```
 
 
+```{r}
+##filter
+#Logical predicates
+StuDF
+# logical vector
+logiChoose <- c(
+  F,F,F,T,T,F,T,F
+)
+# 使用logical vector選擇所要觀測值"女"
+StuDF[logiChoose,] #取出為true的
+
+#自訂predicates
+StuDF$性別=="女" # logical predicate
+
+logiChoose <- StuDF$性別=="女"
+StuDF[logiChoose,]
+```
+
+```{r}
+#使用with與slice
+#可顯示向量元素為真的位置
+logiChoose
+which(logiChoose)
+slice(
+  StuDF,which(logiChoose)
+)
+```
+
+```{r}
+# relational operators
+StuDF$性別=="女" 
+StuDF$成績>60
+
+# combined with logical operator
+(StuDF$性別=="女" & StuDF$成績>60) -> logiChoose2
+logiChoose2
+
+StuDF[logiChoose2,]
+```
 
 
+```{r}
+#使用filter
+filter(StuDF,
+       性別=="女")
+filter(StuDF,
+       (性別=="女" & 成績>60))
+filter(StuDF,
+       性別=="女",
+       成績>60) # 多個AND條件可用,分隔
+```
+
+```{r}
+##請計算StuDF中:
+#女性平均成績，最高分，最低分
+StuDF_G <- filter(StuDF,
+       性別=="女")
+summarise(StuDF_G,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績))
+
+#女性平均成績，最高分，最低分
+
+##依以下各別情境，選出collegeData中符合情境的觀測值：
+#縣市名稱為“30 臺北市”
+filter(collegeData,
+       collegeData[[21]] == "30 臺北市")
+
+#縣市名稱為“30 臺北市”或“01 新北市”。（使用OR|或belong to%in%）
+filter(collegeData,
+       collegeData[[21]] == "30 臺北市" | collegeData[[21]] == "01 新北市")
+
+```
 
 
+```{r}
+# 縣市名稱為“30 臺北市”
+filter(collegeData,
+       縣市名稱=="30 臺北市")
+# 縣市名稱為“30 臺北市”或“01 新北市”
+filter(collegeData,
+       縣市名稱=="30 臺北市" | 縣市名稱=="01 新北市")
+```
 
+```{r}
+## group_by
+# 直接下group_by:新的dataframe
+group_by(StuDF,
+         性別) -> StuDF_by性別
 
+# 使用grouped data frame
+summarise(StuDF_by性別,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績))
 
-
+# 使用ungrouped data frame
+summarise(StuDF,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績))
+```
 
 
 

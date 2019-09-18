@@ -89,7 +89,22 @@ collegeData$女生 <- collegeData[[6]]+collegeData[[8]]+collegeData[[10]]+colleg
 collegeData$男女生比 <- collegeData$男生/collegeData$女生
 ```
 
+```{r}
+##可以一次創很多變數(注意順序)
+collegeData <- mutate(collegeData, 
+                      男生 = collegeData[[5]]+collegeData[[7]]+collegeData[[9]]+collegeData[[11]],
+                      女生 = collegeData[[6]]+collegeData[[8]]+collegeData[[10]]+collegeData[[12]],
+                      男女生比 = 男生/女生)
 
+```
+
+```{r}
+#summarise
+summarise(StuDF,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績))
+```
 
 
 

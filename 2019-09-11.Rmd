@@ -99,12 +99,98 @@ collegeData <- mutate(collegeData,
 ```
 
 ```{r}
-#summarise
+#summarise:只算總和的
+#input,optput都是dataframe
 summarise(StuDF,
         平均成績=mean(成績),
         最高分=max(成績),
         最低分=min(成績))
+
 ```
+
+```{r}
+#變成mutate:每列都分別算出來
+mutate(StuDF,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績))
+```
+
+```{r}
+#若老師的調分為原始成績加上「最高最低分差距除以5」，請產生調分成績:
+mutate(StuDF, 調分成績 = 成績+(max(成績)-min(成績))/5)
+
+```
+
+
+```{r}
+##select:選擇變數
+StuDF
+mutate(StuDF,
+        平均成績=mean(成績),
+        最高分=max(成績),
+        最低分=min(成績)) -> StuDF2
+```
+
+```{r}
+StuDF2
+names(StuDF2) #顯示物件內的元素名稱
+select(StuDF2,
+       姓名,學號,成績,調分後成績) #要選擇欄位放後面
+select(StuDF2,
+       -次序,-性別,-最高分,-最低分) #負號代表不選
+```
+
+```{r}
+#綜合select
+select(StuDF2,
+       次序,性別,
+       contains("最"))
+
+select(StuDF2,
+       -次序,-性別,
+       -contains("最"))
+```
+
+```{r}
+#選出collegeData中所有男生變數
+select(collegeData,
+       contains("男生"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

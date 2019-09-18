@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
+##創造list
+
 StuList <- list(
   次序=c(1,2,3,4,5,6,7,8),
   學號=c(172,214,322,425,517,833,752,114),
@@ -19,14 +21,103 @@ StuList <- list(
   成績=c(80,42,90,82,50,77,30,90)
   )
 StuList 
+
+##轉成dataframe
 as.data.frame(StuList) -> StuDFfromList
 StuDFfromList
 ```
 
 
 ```{r}
+##直接創造dataframe
 
+StuDF <- data.frame(
+  次序=c(1,2,3,4,5,6,7,8),
+  學號=c(172,214,322,425,517,833,752,114),
+  姓名=c("小明","大雄","胖虎","小新","大白","阿華","小英","阿美"),
+  性別=c("男","男","男","女","女","男","女","男"),
+  成績=c(80,42,90,82,50,77,30,90)
+  )
+StuDF 
 ```
+
+```{r}
+##type:R以list儲存
+##class:可以用dataframe的方式玩花樣
+# type > class
+class(StuDF)
+typeof(StuDF) 
+```
+
+```{r}
+class(StuList)
+typeof(StuList)
+```
+
+```{r}
+length(StuDF) # 從向量(list)角度看:有5個變數
+nrow(StuDF) # 從矩陣(dataframe)角度看:有8欄
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+```
+
+```{r}
+#檢查資料結構
+str(StuDF)
+```
+
+```{r}
+#查看前6筆
+head(StuDF)
+#查看後6筆
+tail(StuDF)
+```
+
+```{r}
+##slice:切割資料
+StuDF
+slice(StuDF,1:3) #第1筆到第3筆資料
+slice(StuDF,4:5)
+slice(StuDF,n()) #計算目前所使用的dataframe有多少資料
+slice(StuDF,(n()-1):n()) #第n-1筆到第n筆(倒數2筆)
+```
+
+```{r}
+StuDF
+slice(StuDF,-5:-7) #567不要
+slice(StuDF,-(5:7))#較好寫法
+slice(StuDF,c(-5,-6,-7))
+```
+
+```{r}
+#選出1 4 8
+slice(StuDF,c(1,4,8))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1802,8 +1802,63 @@ spread(df_spreadExample,
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfdHdiYW5rRXhjaGFuZ2VSYXRlIDwtIHJlYWRfY3N2KFwiaHR0cDovL3d3dy5ib3QuY29tLnR3L0dvdmluZm8vb3BlbmRhdGEvY3N2LzE1MS8yMDE4MDEwMS0yMDE4MTIzMS1GWENSVC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>df_twbankExchangeRate &lt;- read_csv(&quot;http://www.bot.com.tw/Govinfo/opendata/csv/151/20180101-20181231-FXCRT.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfdHdiYW5rRXhjaGFuZ2VSYXRlICU+JVxuICBtdXRhdGUoXG4gICAg5bmj5YilID0gYXMuZmFjdG9yKOW5o+WIpSksXG4gICAg5Y2z5pyf6LK35YWl5Yyv546HID0gYXMuZG91YmxlKOWNs+acn+iyt+WFpeWMr+eOhyksXG4gICAg5Y2z5pyf6LOj5Ye65Yyv546HID0gYXMuZG91YmxlKOWNs+acn+izo+WHuuWMr+eOhyksXG4gICAg5pel5pyfID0geW1kKOaXpeacnylcbiAgKVxuYGBgIn0= -->
+<pre class="r"><code>df_twbankExchangeRate %&gt;%
+  mutate(
+    撟&lt;a3&gt;&lt;e5&gt; = as.factor(撟&lt;a3&gt;&lt;e5&gt;),
+    &lt;e5&gt;&lt;e6&gt;&lt;9c&gt;眺&lt;e5&gt;&lt;e5&gt;&lt;e7&gt;&lt;8e&gt;&lt;87&gt; = as.double(&lt;e5&gt;&lt;e6&gt;&lt;9c&gt;眺&lt;e5&gt;&lt;e5&gt;&lt;e7&gt;&lt;8e&gt;&lt;87&gt;),
+    &lt;e5&gt;&lt;e6&gt;&lt;9c&gt;都&lt;e5&gt;&lt;e5&gt;&lt;e7&gt;&lt;8e&gt;&lt;87&gt; = as.double(&lt;e5&gt;&lt;e6&gt;&lt;9c&gt;都&lt;e5&gt;&lt;e5&gt;&lt;e7&gt;&lt;8e&gt;&lt;87&gt;),
+    &lt;e6&gt;&lt;e6&gt;&lt;9c&gt;&lt;9f&gt; = ymd(&lt;e6&gt;&lt;e6&gt;&lt;9c&gt;&lt;9f&gt;)
+  )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGZfdHdiYW5rRXhjaGFuZ2VSYXRlICU+JVxuICBzZWxlY3QoLeWNs+acn+izo+WHuuWMr+eOhyklPiVcbiAgc3ByZWFkKOW5o+WIpSwg6LKo5bmj5ZCN56ixKSAtPiBkZl90d2JhbmtFeGNoYW5nZVJhdGVfc3ByZWFkXG5gYGAifQ== -->
+<pre class="r"><code>df_twbankExchangeRate %&gt;%
+  select(-&lt;e5&gt;&lt;e6&gt;&lt;9c&gt;都&lt;e5&gt;&lt;e5&gt;&lt;e7&gt;&lt;8e&gt;&lt;87&gt;)%&gt;%
+  spread(撟&lt;a3&gt;&lt;e5&gt;, 鞎典馳&lt;e5&gt;&lt;90&gt;迂) -&gt; df_twbankExchangeRate_spread</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>##Data import</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKERhaWx5Rm9yZWlnbkV4Y2hhbmdlUmF0ZXMpXG5gYGAifQ== -->
+<pre class="r"><code>str(DailyForeignExchangeRates)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRGFpbHlGb3JlaWduRXhjaGFuZ2VSYXRlcyA8LVxuICBEYWlseUZvcmVpZ25FeGNoYW5nZVJhdGVzICU+JVxuICBtdXRhdGUoXG4gICAg5pel5pyfID0geW1kKOaXpeacnylcbiAgKVxuYGBgIn0= -->
+<pre class="r"><code>DailyForeignExchangeRates &lt;-
+  DailyForeignExchangeRates %&gt;%
+  mutate(
+    &lt;e6&gt;&lt;e6&gt;&lt;9c&gt;&lt;9f&gt; = ymd(&lt;e6&gt;&lt;e6&gt;&lt;9c&gt;&lt;9f&gt;)
+  )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVhZC5jc3YoXCJodHRwOi8vdGVjaDIubnBtLmVkdS50dy94bWwvQmlvZ3JhcGh5MDAxLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code>read.csv(&quot;http://tech2.npm.edu.tw/xml/Biography001.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpwbG90KGNhcnMpDQpgYGANCg0KQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkN0cmwrQWx0K0kqLg0KDQpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkN0cmwrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4NCg0KVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLg0KYGBge3J9DQpkZl90YW95dWFuTWFycmlhZ2VfZ2F0aGVyICU+JQ0KICBncm91cF9ieSjmnIjku70pJT4lDQogIHN1bW1hcmlzZSjnuL3lsI3mlbggPSBzdW0o5bCN5pW4KSkNCmBgYA0KDQpgYGB7cn0NCiMjc3ByZWFkDQpkZl9zcHJlYWRFeGFtcGxlIDwtIGRhdGEuZnJhbWUoDQogIGlkID0gYygxLDEsMSwyLDIsMiksDQogIHZhciA9IGMoIuiKseactuiQvOeJh+mVt+W6piIsICLlrbjlkI0iLCAi57i96aGe5pW4IiksDQogIHZhbHVlID0gYyg1LjEsICJzZXRvc2EiLCAxLCANCiAgICAgICAgICAgIDcuMCwgInZlcnNpY29sb3IiLCAyKSkNCmBgYA0KDQoNCmBgYHtyfQ0KZGZfc3ByZWFkRXhhbXBsZQ0Kc3ByZWFkKGRmX3NwcmVhZEV4YW1wbGUsDQogICAgICAgdmFyLHZhbHVlKQ0KYGBgDQoNCmBgYHtyfQ0KY29sbGVnZURhdGFfZ2F0aGVyICU+JQ0KICBzcHJlYWQoDQogICAg6aGe5YilLOS6uuaVuA0KICApDQpgYGANCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpwbG90KGNhcnMpDQpgYGANCg0KQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkN0cmwrQWx0K0kqLg0KDQpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkN0cmwrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4NCg0KVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLg0KYGBge3J9DQpkZl90YW95dWFuTWFycmlhZ2VfZ2F0aGVyICU+JQ0KICBncm91cF9ieSjmnIjku70pJT4lDQogIHN1bW1hcmlzZSjnuL3lsI3mlbggPSBzdW0o5bCN5pW4KSkNCmBgYA0KDQpgYGB7cn0NCiMjc3ByZWFkDQpkZl9zcHJlYWRFeGFtcGxlIDwtIGRhdGEuZnJhbWUoDQogIGlkID0gYygxLDEsMSwyLDIsMiksDQogIHZhciA9IGMoIuiKseactuiQvOeJh+mVt+W6piIsICLlrbjlkI0iLCAi57i96aGe5pW4IiksDQogIHZhbHVlID0gYyg1LjEsICJzZXRvc2EiLCAxLCANCiAgICAgICAgICAgIDcuMCwgInZlcnNpY29sb3IiLCAyKSkNCmBgYA0KDQoNCmBgYHtyfQ0KZGZfc3ByZWFkRXhhbXBsZQ0Kc3ByZWFkKGRmX3NwcmVhZEV4YW1wbGUsDQogICAgICAgdmFyLHZhbHVlKQ0KYGBgDQoNCmBgYHtyfQ0KY29sbGVnZURhdGFfZ2F0aGVyICU+JQ0KICBzcHJlYWQoDQogICAg6aGe5YilLOS6uuaVuA0KICApDQpgYGANCg0KYGBge3J9DQpkZl90d2JhbmtFeGNoYW5nZVJhdGUgPC0gcmVhZF9jc3YoImh0dHA6Ly93d3cuYm90LmNvbS50dy9Hb3ZpbmZvL29wZW5kYXRhL2Nzdi8xNTEvMjAxODAxMDEtMjAxODEyMzEtRlhDUlQuY3N2IikNCmBgYA0KDQpgYGB7cn0NCmRmX3R3YmFua0V4Y2hhbmdlUmF0ZSAlPiUNCiAgbXV0YXRlKA0KICAgIOW5o+WIpSA9IGFzLmZhY3RvcijluaPliKUpLA0KICAgIOWNs+acn+iyt+WFpeWMr+eOhyA9IGFzLmRvdWJsZSjljbPmnJ/osrflhaXljK/njocpLA0KICAgIOWNs+acn+izo+WHuuWMr+eOhyA9IGFzLmRvdWJsZSjljbPmnJ/os6Plh7rljK/njocpLA0KICAgIOaXpeacnyA9IHltZCjml6XmnJ8pDQogICkNCmBgYA0KDQoNCmBgYHtyfQ0KZGZfdHdiYW5rRXhjaGFuZ2VSYXRlICU+JQ0KICBzZWxlY3QoLeWNs+acn+izo+WHuuWMr+eOhyklPiUNCiAgc3ByZWFkKOW5o+WIpSwg6LKo5bmj5ZCN56ixKSAtPiBkZl90d2JhbmtFeGNoYW5nZVJhdGVfc3ByZWFkDQpgYGANCg0KIyNEYXRhIGltcG9ydA0KYGBge3J9DQpzdHIoRGFpbHlGb3JlaWduRXhjaGFuZ2VSYXRlcykNCmBgYA0KDQpgYGB7cn0NCkRhaWx5Rm9yZWlnbkV4Y2hhbmdlUmF0ZXMgPC0NCiAgRGFpbHlGb3JlaWduRXhjaGFuZ2VSYXRlcyAlPiUNCiAgbXV0YXRlKA0KICAgIOaXpeacnyA9IHltZCjml6XmnJ8pDQogICkNCmBgYA0KDQoNCmBgYHtyfQ0KcmVhZC5jc3YoImh0dHA6Ly90ZWNoMi5ucG0uZWR1LnR3L3htbC9CaW9ncmFwaHkwMDEuY3N2IikNCmBgYA0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQo=</div>
 
 
 

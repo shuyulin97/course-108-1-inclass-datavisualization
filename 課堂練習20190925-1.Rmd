@@ -45,10 +45,44 @@ collegeData_gather %>%
   )
 ```
 
+```{r}
+df_twbankExchangeRate <- read_csv("http://www.bot.com.tw/Govinfo/opendata/csv/151/20180101-20181231-FXCRT.csv")
+```
+
+```{r}
+df_twbankExchangeRate %>%
+  mutate(
+    幣別 = as.factor(幣別),
+    即期買入匯率 = as.double(即期買入匯率),
+    即期賣出匯率 = as.double(即期賣出匯率),
+    日期 = ymd(日期)
+  )
+```
 
 
+```{r}
+df_twbankExchangeRate %>%
+  select(-即期賣出匯率)%>%
+  spread(幣別, 貨幣名稱) -> df_twbankExchangeRate_spread
+```
+
+##Data import
+```{r}
+str(DailyForeignExchangeRates)
+```
+
+```{r}
+DailyForeignExchangeRates <-
+  DailyForeignExchangeRates %>%
+  mutate(
+    日期 = ymd(日期)
+  )
+```
 
 
+```{r}
+read.csv("http://tech2.npm.edu.tw/xml/Biography001.csv")
+```
 
 
 

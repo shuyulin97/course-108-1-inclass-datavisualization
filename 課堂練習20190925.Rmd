@@ -10,7 +10,102 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-a = 1+1
-print(a)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
 ```
+
+
+```{r}
+load(url("https://www.dropbox.com/s/duh5aaqgl2f5m3z/loopTranscriptData.Rda?raw=1"))
+```
+
+```{r}
+#計算每位學生每學期的平均成績
+```
+
+```{r}
+library(tidyr)
+```
+
+```{r}
+df_gatherExample <- data.frame(
+  country=c("A","B","C"),
+  `1999`=c("0.7k","37k","212k"),
+  `2000`=c("2k","80k","213k"),
+  check.names = F
+)
+```
+
+```{r}
+df_gatherExample <-
+  gather(df_gatherExample,
+       `1999`,`2000`,               #壓縮完後放到年分，值是人口
+       key="年份",value="人口")
+```
+
+#將collegeData裡各年級男女生人數合成兩個欄位，類別,人數，其中類別值為原始欄位名稱（即一年級男生，一年級女生，…等等），而人數則為對應人數。
+```{r}
+library(readr)
+collegeData <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/103_student.csv")
+```
+
+```{r}
+collegeData %>%
+  gather(contains("生"),
+         key = "類別", value = "人數")-> collegeData_gather
+```
+
+#將collegeData裡各年級男女生人數合成兩個欄位，類別,人數，其中類別值為原始欄位名稱（即一年級男生，一年級女生，…等等），而人數則為對應人數
+```{r}
+library(readr)
+df_taoyuanMarriage <- read_csv("https://data.tycg.gov.tw/opendata/datalist/datasetMeta/download?id=f95d1a33-ec56-44c5-a9ec-3afba8157e39&rid=fd2070ef-7431-4f9c-bc3a-82d7bfbcd2fb")
+```
+
+```{r}
+df_taoyuanMarriage %>%
+  gather(ends_with("月"),
+         key = "月份", value = "對數") -> df_taoyuanMarriage_gather
+```
+
+```{r}
+df_taoyuanMarriage_gather %>%
+  group_by(月份)%>%
+  summarise(總對數 = sum(對數))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

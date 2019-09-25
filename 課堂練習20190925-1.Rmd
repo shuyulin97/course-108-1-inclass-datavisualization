@@ -72,17 +72,18 @@ str(DailyForeignExchangeRates)
 ```
 
 ```{r}
-DailyForeignExchangeRates <-
-  DailyForeignExchangeRates %>%
-  mutate(
-    日期 = ymd(日期)
-  )
+library(readr)
+subsetDataTWbank <- read_csv("https://www.dropbox.com/s/t8ulj3d7cgl8jh5/subsetDataTWbank.csv?dl=1")
 ```
-
 
 ```{r}
-read.csv("http://tech2.npm.edu.tw/xml/Biography001.csv")
+library(ggplot2)
+ggplot(subsetDataTWbank, aes(x=西元年月,y=`定存利率-一個月-固定`))+
+  geom_point()+
+  geom_line()
 ```
+
+`
 
 
 

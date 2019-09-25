@@ -83,7 +83,19 @@ ggplot(subsetDataTWbank, aes(x=西元年月,y=`定存利率-一個月-固定`))+
   geom_line()
 ```
 
-`
+```{r}
+subsetDataTWbank_gather <-
+  subsetDataTWbank %>%
+  gather(
+    contains("定存利率"),
+    key = "期數", value = "利率"
+  )
+
+subsetDataTWbank_gather %>%
+  ggplot(aes(x = 期數, y = 利率))+
+  geom_boxplot()
+```
+
 
 
 

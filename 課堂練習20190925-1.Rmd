@@ -22,3 +22,46 @@ df_taoyuanMarriage_gather %>%
   summarise(總對數 = sum(對數))
 ```
 
+```{r}
+##spread
+df_spreadExample <- data.frame(
+  id = c(1,1,1,2,2,2),
+  var = c("花朶萼片長度", "學名", "總類數"),
+  value = c(5.1, "setosa", 1, 
+            7.0, "versicolor", 2))
+```
+
+
+```{r}
+df_spreadExample
+spread(df_spreadExample,
+       var,value)
+```
+
+```{r}
+collegeData_gather %>%
+  spread(
+    類別,人數
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

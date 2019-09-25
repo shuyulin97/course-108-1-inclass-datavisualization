@@ -1,0 +1,16 @@
+---
+title: "課堂練習20190925"
+author: "ShuYu"
+date: "2019/9/25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+a = 1+1
+print(a)
+```
+

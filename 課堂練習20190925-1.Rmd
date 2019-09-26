@@ -83,25 +83,50 @@ ggplot(subsetDataTWbank, aes(x=西元年月,y=`定存利率-一個月-固定`))+
   geom_line()
 ```
 
+#boxplot
 ```{r}
+#gather
 subsetDataTWbank_gather <-
   subsetDataTWbank %>%
   gather(
     contains("定存利率"),
-    key = "期數", value = "利率"
+    key = "定存類型", value = "利率"
   )
 
+#draw picture
 subsetDataTWbank_gather %>%
-  ggplot(aes(x = 期數, y = 利率))+
+  ggplot(aes(x = 定存類型, y = 利率))+
   geom_boxplot()
 ```
 
+#color
+```{r}
+subsetDataTWbank_gather %>%
+  ggplot()+
+  geom_line(
+    aes(x=西元年月,y=利率,color=定存類型) #必須gather在同一個變數欄，才可以用color分類
+  )
+```
 
+#改變levels出現順序
+```{r}
+subsetDataTWbank_gather %>%
+  mutate(
+    定存類型=factor(定存類型,levels=c("定存利率-一個月-固定","定存利率-二年期-固定","定存利率-三年期-固定"))
+  ) -> subsetDataTWbank_gather
+```
 
+```{r}
 
+```
 
+```{r}
 
+```
 
+```{r}
+
+```
 
 
 

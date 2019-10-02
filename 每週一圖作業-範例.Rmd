@@ -38,6 +38,9 @@ knitr::opts_chunk$set(out.width='80%', fig.asp=.75, fig.align='center', fig.show
   
 ```{r data cleaning, echo=TRUE, eval=T}
 # 資料引入
+# a <- read_csv("a")
+#save(a, b, c, file = "example_data,Rda")
+
 load("example_data.Rda")
 
 # 資料處理

@@ -29,6 +29,26 @@ show_col(
 )
 ```
 
+```{r}
+choose_color()
+```
+
+```{r}
+library(readr)
+disposableIncome <- read_csv("https://www.dropbox.com/s/z80sbjw94cjex8x/disposableIncome.csv?dl=1",
+locale = locale(encoding = "BIG5"), skip = 4)
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 

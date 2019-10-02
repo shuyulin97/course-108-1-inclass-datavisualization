@@ -4,6 +4,31 @@ output: html_notebook
 ---
 
 ```{r}
-
+library(grDevices) # 不同顏色模型代碼的呈現及轉換
+library(scales) # show_col()螢幕立即顯示顏色
+library(colorspace) # 調色盤選擇及ggplot應用工具
+library(shinyjs) # 支援套件
 ```
+
+```{r}
+library(grDevices)
+rgb(0,0,1) # 即對應顏色強度(0,0,255)
+```
+
+```{r}
+rgb(0.5,0,0.7) # 即對應顏色強度(0.5*255,0,0.7*255)進位到整數
+```
+
+```{r}
+show_col(
+  c(
+    hsv(30/360,0,0),hsv(30/360,0.5,0),hsv(30/360,1,0), # (,,lightness=0) 全暗
+    hsv(30/360,0,0.5),hsv(30/360,0.5,0.5),hsv(30/360,1,0.5), # (,,lightness=0.5)
+    hsv(30/360,0,1),hsv(30/360,0.5,1),hsv(30/360,1,1) # (,,lightness=1) 全亮
+  )
+)
+```
+
+
+
 

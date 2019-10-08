@@ -1,0 +1,83 @@
+---
+title: "每週一圖作業_1002"
+author: "ShuYu"
+date: "2019/10/8"
+output: html_document
+params:
+  組員: "林書玉"
+  學號: "410575010"
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext)
+
+font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(out.width='80%', fig.asp=.75, fig.align='center', fig.showtext=T)
+```
+
+#### 資料處理
+
+此部份在做：
+
+  * 原始Rda資料引入（即引入**dataList**物件）；
+  
+  * 資料清理成作圖用graphData物件。
+
+請將你最原始的資料連同作業一起上傳到作業上傳網址：  
+  * 若「原始資料為網頁下載」，且下載指令寫在data cleaning chunk裡的話，可以不用上傳「資料」。  
+  * 若原始資料有很多個檔案，請先引入成data frame並存在「一個」.Rda檔裡上傳（如`example_data.Rda`檔）。  
+
+資料檔引入到進入作圖前的資料處理請寫在下面區塊，分二部份：
+
+  * 資料處理  
+  * 作圖用資料物件生成
+  
+```{r data cleaning, echo=TRUE, eval=T}
+library(tidyverse)
+library(readxl)
+
+#preperation:read file
+tax_data <- read_excel("C:/Users/user/Desktop/R/PF/tax_data.xls")
+
+#save as Rda file
+save(tax_data, file="tax_data.Rda")
+load("tax_data.Rda")
+
+graphData <- list()
+
+#Reshape the data selected
+tax_data%>%
+  mutate(年分 = year, 所得稅 = t_income, 營利事業所得稅 = b_income, 貨物稅 = commodity) %>%
+  #Select data needed
+  select(年分, 所得稅, 營利事業所得稅, 貨物稅)%>% 
+  # Reshape the data selected: wide to long
+  gather(key = "tax_type", value = "tax_revenue", 所得稅, 營利事業所得稅, 貨物稅, na.rm = TRUE) -> graphData$tax_data
+
+
+```
+
+#### 繪圖程式
+
+```{r graph, echo=T, eval=T}
+# Draw the line graph
+graphData$tax_data %>%
+  ggplot(aes(x = 年分, y = tax_revenue/1000000, colour = tax_type))+
+  geom_line(size = 0.8)+
+  labs(x = "", y = "Tax Revenue (in million NTD)")+
+  scale_x_continuous(breaks=seq(1974,2016,5))-> finalplot_tax_data
+
+finalplot_tax_data
+```
+
+#### 設計說明
+說明想傳達的訊息（必要）及設計想法（非必要）。寫在***之後
+*** 
+此圖呈現台灣1974年~2016年三項主要稅目的年度稅收總額變化情形，可以發現
+1.所得稅、貨物稅、營利事業所得稅三者差距逐漸拉大
+2.其中又以所得稅收金額上升最劇、貨物稅變化幅度最小
+

@@ -44,10 +44,6 @@ library(readxl)
 #preperation:read file
 tax_data <- read_excel("C:/Users/user/Desktop/R/PF/tax_data.xls")
 
-#save as Rda file
-save(tax_data, file="tax_data.Rda")
-load("tax_data.Rda")
-
 graphData <- list()
 
 #Reshape the data selected

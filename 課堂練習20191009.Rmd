@@ -22,35 +22,202 @@ disposableIncome_gather <- read_csv("https://www.dropbox.com/s/cdw1f10jow4frxb/d
 ```
 
 ```{r}
-c('X1','平均每戶可支配所得','可支配所得按戶數五等分位組-最低所得組','可支配所得按戶數五等分位組-次低所得組','可支配所得按戶數五等分位組-中間所得組','可支配所得按戶數五等分位組-次高所得組','可支配所得按戶數五等分位組-最高所得組') -> names(disposableIncome)
-```
-
-
-```{r}
 disposableIncome %>%
   mutate(
     年 = as.integer(X1)
   ) -> disposableIncome
+```
 
+#使用線形名稱
+```{r}
 disposableIncome %>%
   ggplot(aes(x=年,y=平均每戶可支配所得))+
   geom_line(linetype="dashed")
 ```
 
+#使用hex碼
+```{r}
+disposableIncome %>%
+  ggplot(aes(x=年,y=平均每戶可支配所得))+
+  geom_line(linetype="33")
+```
+
+#使用hex碼
+```{r}
+disposableIncome %>%
+  ggplot(aes(x=年,y=平均每戶可支配所得))+
+  geom_line(linetype='2451')
+```
+
+```{r}
+library(magrittr)
+disposableIncome_gather$所得組距 %<>%
+  factor(levels=c(
+    "可支配所得按戶數五等分位組-最低所得組",
+    "可支配所得按戶數五等分位組-次低所得組",
+    "可支配所得按戶數五等分位組-中間所得組",
+    "可支配所得按戶數五等分位組-次高所得組",
+    "可支配所得按戶數五等分位組-最高所得組"
+  )) 
+
+disposableIncome_gather %>%
+  ggplot(aes(x=年,y=可支配所得))+
+  geom_line(
+    aes(linetype=所得組距,size=所得組距)
+  ) +
+  scale_linetype_manual(
+    values=c("15","24","34","51","71")
+  ) +
+  scale_size_manual(
+    values=c(0.1,0.3,0.3,0.5,0.7)*1.5
+  ) -> p_linetype
+p_linetype
+```
 
 
-
-##將作業2019-10-08，作品014改成時間趨勢圖，並添加你認為可以改善的設計。
+##3.4 將作業2019-10-08，作品014改成時間趨勢圖，並添加你認為可以改善的設計。
 ```{r}
 load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/graphData_homework2019-10-08_014.Rda?raw=true"))
 ```
 
 ```{r}
-graphData$travelerFromAsia %>%
-  ggplot(aes(x=`年分`,y=`來台旅遊人數(萬)`,fill=地區)) +
-    geom_bar(stat="identity", position=position_dodge())
+c('年分','地區','來台旅遊人數(萬)') -> names(graphData$travelerFromAsia)
 ```
 
+```{r}
+#座標軸單位必須是連續的才能畫線圖
+graphData$travelerFromAsia$年分 <- as.numeric(graphData$travelerFromAsia$年分)
+```
+
+```{r}
+graphData$travelerFromAsia %>%
+  ggplot(aes(x=`年分`,y=`來台旅遊人數(萬)`,color = 地區)) +
+  geom_line(size = 0.5)
+```
+
+##3.3 Date/Time
+
+```{r}
+dataCPI <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/master/PR0101A2Mc.csv", 
+    locale = locale(encoding = "BIG5"), skip = 3)
+
+## 改變數名稱
+dataCPI %>% 
+  dplyr::rename(
+    年月=X1,
+    CPI=原始值
+  ) -> dataCPI
+
+# 移除「有NA」的row
+dataCPI %>% na.omit() -> dataCPI
+
+## 調整class
+dataCPI$年月 %>% str_c("/01") %>% #擴增為YMD表示
+  ymd() -> dataCPI$年月
+
+# 改成2003M1為基期,其指數為100
+dataCPI %>% filter(年月==ymd("2003-01-01")) %>% 
+  select(CPI) -> CPI2003M1
+dataCPI %>% 
+  mutate(CPI=CPI/CPI2003M1$CPI*100) -> dataCPI2
+```
+
+```{r}
+dataCPI2 %>% ggplot()+
+  geom_line(aes(x=年月,y=CPI)) -> basePlot2
+basePlot2
+```
+
+#scale:設置座標上限
+```{r}
+#時間
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA))
+```
+
+#Scale適用不同資料型態
+```{r}
+#連續變數
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA))+
+  scale_y_continuous(limits=c(80,NA)) 
+```
+
+```{r}
+#資料分組
+disposableIncome_gather %>%
+  ggplot(aes(x=年,y=可支配所得))+
+  geom_line(
+    aes(linetype=所得組距)
+  ) +
+  scale_linetype_manual(
+    values=c("15","24","34","51","71"),
+    limits=c(
+    "可支配所得按戶數五等分位組-次低所得組",
+    "可支配所得按戶數五等分位組-中間所得組",
+    "可支配所得按戶數五等分位組-次高所得組")
+  )
+```
+
+#break:自行選定需說明的座標點
+```{r}
+breakDates <- c("2003-01-01",
+                "2005-01-01","2010-01-01","2015-01-01",
+                "2018-01-01")
+breakDates %>% ymd() -> breakDates
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA),
+               breaks = breakDates)
+```
+
+#break:說明圖例只放指定的解釋
+```{r}
+disposableIncome_gather %>%
+  ggplot(aes(x=年,y=可支配所得))+
+  geom_line(
+    aes(linetype=所得組距)
+  ) +
+  scale_linetype_manual(
+    values=c("15","24","34","51","71"),
+    breaks=c(
+    "可支配所得按戶數五等分位組-次低所得組",
+    "可支配所得按戶數五等分位組-中間所得組",
+    "可支配所得按戶數五等分位組-次高所得組")
+  )
+```
+
+#label:braak點的說明文字呈現
+```{r}
+#顯示資料
+breakDates <- c("2003-01-01",
+                "2005-01-01","2010-01-01","2015-01-01",
+                "2018-01-01")
+breakDates %>% ymd() -> breakDates
+
+#顯示文字長相
+breakLabels <- c("2003",
+                 "2005","2010","2015",
+                 "2018")
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA),
+               breaks = breakDates,
+               labels = breakLabels)
+```
+
+```{r}
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA),
+               breaks = breakDates,
+               labels = function(x) year(x))
+```
+
+#請將年月標示名稱改成民國年表示
+```{r}
+basePlot2 +
+  scale_x_date(limits=c(ymd("2003-01-01"),NA),
+               breaks = breakDates,
+               labels = function(x) year(x) - 1911)
+```
 
 
 

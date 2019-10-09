@@ -9,3 +9,60 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext)
+```
+
+
+##3.2 Linetype
+```{r}
+library(readr)
+disposableIncome <- read_csv("https://www.dropbox.com/s/z80sbjw94cjex8x/disposableIncome.csv?dl=1")
+disposableIncome_gather <- read_csv("https://www.dropbox.com/s/cdw1f10jow4frxb/disposableIncome_gather.csv?dl=1")
+```
+
+```{r}
+c('X1','平均每戶可支配所得','可支配所得按戶數五等分位組-最低所得組','可支配所得按戶數五等分位組-次低所得組','可支配所得按戶數五等分位組-中間所得組','可支配所得按戶數五等分位組-次高所得組','可支配所得按戶數五等分位組-最高所得組') -> names(disposableIncome)
+```
+
+
+```{r}
+disposableIncome %>%
+  mutate(
+    年 = as.integer(X1)
+  ) -> disposableIncome
+
+disposableIncome %>%
+  ggplot(aes(x=年,y=平均每戶可支配所得))+
+  geom_line(linetype="dashed")
+```
+
+
+
+
+##將作業2019-10-08，作品014改成時間趨勢圖，並添加你認為可以改善的設計。
+```{r}
+load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/graphData_homework2019-10-08_014.Rda?raw=true"))
+```
+
+```{r}
+graphData$travelerFromAsia %>%
+  ggplot(aes(x=`年分`,y=`來台旅遊人數(萬)`,fill=地區)) +
+    geom_bar(stat="identity", position=position_dodge())
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

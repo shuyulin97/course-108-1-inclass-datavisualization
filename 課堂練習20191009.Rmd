@@ -1,0 +1,11 @@
+---
+title: "課堂練習20191009"
+author: "ShuYu"
+date: "2019/10/9"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+

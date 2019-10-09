@@ -212,15 +212,76 @@ basePlot2 +
 ```
 
 #請將年月標示名稱改成民國年表示
+
+```{r}
+break_label_fun <- function(x){
+  year(x)-1911
+}
+```
+
 ```{r}
 basePlot2 +
   scale_x_date(limits=c(ymd("2003-01-01"),NA),
                breaks = breakDates,
-               labels = function(x) year(x) - 1911)
+               labels = function(x) year(x) - 1911) #把短的function貼進來(=break_label_fun)
 ```
 
+```{r}
+disposableIncome_gather %>%
+  ggplot(aes(x=年,y=可支配所得))+
+  geom_line(
+    aes(linetype=所得組距)
+  ) +
+  scale_linetype_manual(
+    values=c("15","24","34","51","71"),
+    breaks=c(
+    "可支配所得按戶數五等分位組-次低所得組",
+    "可支配所得按戶數五等分位組-中間所得組",
+    "可支配所得按戶數五等分位組-次高所得組"),
+    labels=c(
+    "次低所得組",
+    "中間所得組",
+    "次高所得組"),
+    )
+```
 
+##3.4 geom_text
+```{r}
+disposableIncome_gather %>%
+  group_by(所得組距) %>%
+  summarise(
+    最後一年=last(年),           #創造變數last:選出最後一個
+    可支配所得=last(可支配所得)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    所得組=stringr::str_replace(
+      as.character(所得組距),"可支配所得按戶數五等分位組-","")
+    )-> disposableIncome_gather_legend
 
+disposableIncome_gather %>%
+  ggplot(aes(x=年,y=可支配所得))+
+  geom_line(
+    aes(linetype=所得組距)
+  ) +
+  scale_linetype_manual(
+    values=c("15","24","34","51","71"),
+    breaks=c(
+    "可支配所得按戶數五等分位組-次低所得組",
+    "可支配所得按戶數五等分位組-中間所得組",
+    "可支配所得按戶數五等分位組-次高所得組")
+    ) +
+  theme(legend.position = "none") + # 取消legend
+  geom_text(
+    data=disposableIncome_gather_legend,
+    aes(
+      x=最後一年,
+      y=可支配所得,
+      label=所得組                       #加一層geom_text的layer
+    ),
+    nudge_x= -3.8, size=3                #往左邊移
+  )
+```
 
 
 

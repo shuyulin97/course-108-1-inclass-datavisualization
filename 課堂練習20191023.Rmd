@@ -76,16 +76,48 @@ graphList$圖書_ggplotOnly +
     aes(
       x=學院,
       y=stat(prop), group="全校",
-      label=round(stat(prop),digits=2)),
+      label=round(stat(prop),digits=2)), #算完這3個mapping會丟給geom_text
     geom="text",
-    color="white", nudge_y=0.2
+    color="white", nudge_y=0.2 #nudge無法在stat_count物件作用
   )+
   labs(
     title="各院借閱人次佔總人次比",x="",y=""
   )
 ```
 
+```{r}
+#override stat
+graphList$圖書_ggplotOnly +
+  geom_bar(
+    aes(x=學院, y=stat(prop), group="全校") 
+  )+
+  geom_text(
+    aes(
+      x=學院,
+      y=stat(prop), group="全校",
+      label=round(stat(prop),digits=2)),
+    stat="count",
+    color="white",nudge_y=-0.01 #從geom_text角度nudge就可以使用
+  )+
+  labs(
+    title="各院借閱人次佔總人次比",x="",y=""
+  )
+```
 
+```{r}
+df_x <- data.frame(
+  x=rnorm(500,mean=2,sd=1)
+)
+df_x %>%
+  ggplot(aes(x=x))+
+  geom_histogram(
+    aes(y=stat(density)) #更改bin為整體機率
+  )+
+  stat_function(
+    fun=dnorm, args = list(mean=2, sd=1) # dnorm 為常態分配density函數 
+                                         #用list寫其他參數設定
+  )
+```
 
 
 

@@ -9,22 +9,104 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+library(readr)
+library2014 <- read_csv("https://www.dropbox.com/s/999hy0u1y98y6ep/library2014.csv?dl=1")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library2014 %>%
+  mutate(
+    學院=reorder(學院,學號,length,order=T),
+    讀者年級=reorder(讀者年級,讀者年級, order=T)
+  ) -> library2014
+
+graphList <- list()
+
+library2014 %>% 
+  ggplot()-> graphList$圖書_ggplotOnly
+
+graphList$圖書_ggplotOnly+
+  geom_bar(
+    aes(x=學院), fill="#5A99B3", width=0.7
+    )
+```
+
+```{r}
+graphList$圖書_ggplotOnly +
+  geom_bar(
+    aes(x=學院,fill=讀者年級), width=0.7
+  )
+```
+
+```{r}
+graphList$圖書_ggplotOnly+
+  geom_bar(
+    aes(x=學院) # 預設 stat="count"
+  )
+```
+
+```{r}
+graphList$圖書_ggplotOnly +
+  stat_count(              #stat_count
+    aes(x=學院), 
+    geom="bar"             #geom_bar內訂會取count來當y
+  )
+```
+
+```{r}
+graphList$圖書_ggplotOnly +
+  stat_count(
+    aes(x=學院,y=stat(prop)), #改成畫比例
+    geom="bar" # geom_bar內訂會取 count來當y
+  )
+```
+
+```{r}
+#改成全校是一個group
+graphList$圖書_ggplotOnly +
+  geom_bar(
+    aes(x=學院, y=stat(prop), group="全校") #group
+  )+
+  stat_count(
+    aes(
+      x=學院,
+      y=stat(prop), group="全校",
+      label=round(stat(prop),digits=2)),
+    geom="text",
+    color="white", nudge_y=0.2
+  )+
+  labs(
+    title="各院借閱人次佔總人次比",x="",y=""
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

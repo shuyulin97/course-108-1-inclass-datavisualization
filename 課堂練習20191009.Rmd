@@ -283,7 +283,62 @@ disposableIncome_gather %>%
   )
 ```
 
+#作業2019-10-08，作品001以你認為合理的方式重新設計。
+```{r}
+load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/graphData_homework2019-10-07_001.Rda?raw=true"))
 
+c('公投案編號','六都','同意票數','有效票數','同意比例（同意票／有效票）') -> names(graphData$Case_10_result)
+```
+
+```{r}
+library(scales)
+library(colorspace)
+library(shiny)
+library(shinyjs)
+qualitative_hcl(n = 6, h = c(180, 360), c = 50, l = 80, register = "god-Palette-Qualitative1")
+graphData$Case_10_result %>% 
+  ggplot(
+    aes(
+      x = 六都, 
+      y = `同意比例（同意票／有效票）`
+    )
+  ) + 
+  geom_col(
+    aes(
+      width = 0.5
+    )
+  ) + 
+   scale_y_continuous(
+    limits = c(0, 0.8), 
+    labels = percent_format()
+  ) + 
+  labs(
+    title = "你是否同意民法婚姻規定應限定在一男一女的結合 ?"
+  ) + 
+  geom_text(
+    aes(
+      label = str_c(
+        round(`同意比例（同意票／有效票）`*100, 1), 
+        "%"
+      ),
+      nudge_y = -0.5,
+      size = 0.8,
+      color = "white"
+    ), 
+    size = 10
+  ) + 
+  theme(
+    plot.title = element_text(
+      colour = "black", face = "bold", 
+      size = 35 
+    ), 
+    axis.title.x = element_text(face = "bold", size = 25), 
+    axis.title.y = element_text(face = "bold", size = 25), 
+    axis.text.x = element_text(size = 20), 
+    axis.text.y = element_text(size = 20), 
+    legend.position = "none"
+  )
+```
 
 
 

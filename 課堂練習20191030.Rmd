@@ -9,22 +9,154 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+```{r}
+df0 <- data.frame(
+  x=c(1,2,1,3,2),
+  y=c(2,3,1,2,4),
+  label=c("a","b","c","d","e")
+)
+df0 %>%
+  ggplot(aes(x=x,y=y))+
+  geom_label(
+    aes(label=label), fill="pink"
+    )-> plotbase0
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+list_graphs <- list()
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+plotbase0+geom_line()+labs(title="geom_line") -> #由小到大連
+  list_graphs$geom_line
 
-```{r cars}
-summary(cars)
+plotbase0+geom_path()+labs(title="geom_path") -> #依給定順序連
+  list_graphs$geom_path
+
+ggpubr::ggarrange(
+  list_graphs$geom_line, list_graphs$geom_path
+)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+ggplot()+theme_linedraw()+
+  scale_x_continuous(limits=c(0,6),breaks=0:6,
+                     expand=expand_scale(add=c(0,0)))+     #底線增加多少空間
+  scale_y_continuous(limits=c(0,6),breaks=0:6,
+                     expand=expand_scale(mult = c(0,0))) -> #expand:設定留白
+  myGrids
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+myGrids
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+list_geometryData <- list()
+list_geometryData$points <- 
+  rbind(
+    c(1,5),
+    c(2,1),
+    c(5,1),
+    c(5,5)) 
+```
+
+
+```{r}
+list_geometryData$points %>%
+  as.data.frame() 
+```
+
+```{r}
+myGrids +
+  geom_point(
+    data=as.data.frame(list_geometryData$points),
+    aes(x=V1,y=V2)
+  ) -> list_graphs$point
+
+myGrids +
+  geom_path(
+    data=as.data.frame(list_geometryData$points),
+    aes(x=V1,y=V2)
+  ) -> list_graphs$path
+
+myGrids +
+  geom_polygon(
+    data=as.data.frame(list_geometryData$points),
+    aes(x=V1,y=V2)
+  ) -> list_graphs$polygon
+
+ggpubr::ggarrange(
+  list_graphs$point, list_graphs$path, list_graphs$polygon,
+  ncol=3
+)
+```
+
+
+```{r}
+library(readr)
+df_geo_northTW <- read_csv("https://www.dropbox.com/s/6uljw24zkyj7avs/df_geo_northTW.csv?dl=1")
+```
+
+```{r}
+df_geo_northTW %>%
+  filter(COUNTYNAME == "新北市") %>%
+  ggplot(aes(x = x, y = y))+
+  geom_polygon()+
+  theme_linedraw()
+
+#可是有台北市??
+#要在原本資料創造sub_id
+```
+
+
+```{r}
+list_graphs$polygon
+```
+
+```{r}
+#產生洞
+list_geometryData$hole <-
+  rbind(
+    c(2,4),
+    c(3,2),
+    c(4,3)
+  )
+
+list_geometryData$points %>%
+  as.data.frame() -> df_part1
+list_geometryData$hole %>%
+  as.data.frame() -> df_part2
+
+df_part1 %>%
+  mutate(
+    sub_id=1
+  ) -> df_part1
+
+df_part2 %>%
+  mutate(
+    sub_id=2
+  ) -> df_part2
+
+bind_rows(
+  df_part1,
+  df_part2
+) -> df_all
+
+df_all %>%
+  mutate(
+    group_id="A"
+  ) -> df_all
+
+myGrids +
+  geom_polygon(
+    data=df_all,
+    aes(x=V1,y=V2, group=group_id, subgroup=sub_id) #要有group id 才能有sub id
+  )
+```
+
+
+
+
+
+
+
+
+
+
+

@@ -150,6 +150,107 @@ myGrids +
   )
 ```
 
+```{r}
+df_geo_northTW %>%
+  filter(COUNTYNAME == "新北市") %>%
+  ggplot(aes(x = x, y = y))+
+  geom_polygon()+
+  theme_linedraw()
+
+
+#一個變數保留新北市和臺北市邊界
+df_geo_northTW %>%
+  filter(COUNTYNAME %in% c("臺北市", "新北市")) %>%
+  mutate(group_id = "新北市")
+
+#一個保留sub id
+df_ntp 
+
+```
+
+```{r}
+library(magick)
+
+image_read("https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/2450df20386177.562ea7d13f396.jpg") -> taipei101
+```
+
+```{r}
+taipei101 %>%
+  image_info() -> taipei101info
+
+taipei101info
+```
+
+```{r}
+# 檢視圖片高寬比
+taipei101info$height/taipei101info$width -> img_asp # image aspect ratio
+img_asp
+```
+
+```{r}
+theme_linedraw()+
+  theme(
+    panel.background = element_rect(fill="cyan4")
+  ) -> list_graphs$theme_backgroundCheck
+
+# 圖片底色非透明
+taipei101 %>%
+  image_ggplot()+
+  list_graphs$theme_backgroundCheck
+```
+
+```{r}
+ggplot()+theme_linedraw()+
+  theme(
+    panel.background = element_rect(fill="cyan4")
+  )
+```
+
+```{r}
+image_fill(taipei101, "transparent", point = "+100+100", fuzz = 0) %>% # fuzz=對邊界定義模糊度 %>% # 這裡的fuzz完全沒有模糊地帶會有留白
+    image_ggplot()+list_graphs$theme_backgroundCheck
+```
+
+```{r}
+image_fill(taipei101,"transparent", point = "+100+100", fuzz=30) %>% #point:取樣一個白色點 #fuzz:邊界模糊度
+    image_ggplot()+list_graphs$theme_backgroundCheck
+```
+
+```{r}
+image_fill(taipei101,"transparent", point = "+100+100", fuzz=30) -> 
+  taipei101transparent
+
+taipei101transparent %>%
+  as.raster() ->
+  raster_taipei101
+```
+
+```{r}
+loc <- c(lon=121.5622782,lat=25.0339687) # Taipei101 經緯度
+imgWidth <- 0.13 # Taipei101在圖片佔寬
+
+list_graphs$northTW +
+  annotation_raster(raster_taipei101,
+                    loc[1]-imgWidth/2,loc[1]+imgWidth/2,
+                    loc[2]-imgWidth/2*img_asp,loc[2]+imgWidth/2*img_asp)
+```
+
+```{r}
+loc <- c(lon=121.5622782,lat=25.0339687) # Taipei101 經緯度
+imgWidth <- 0.13 # Taipei101在圖片佔寬
+
+list_graphs$northTW +
+  annotation_raster(raster_taipei101,
+                    loc[1]-imgWidth/2,loc[1]+imgWidth/2,
+                    loc[2]-imgWidth/2*img_asp,loc[2]+imgWidth/2*img_asp)
+```
+
+
+
+
+
+
+
 
 
 

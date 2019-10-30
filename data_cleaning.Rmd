@@ -1,0 +1,57 @@
+---
+title: "每週一圖作業_1030"
+output: html_document
+params:
+  組員: ["林書玉"]  
+  學號: ["410575010"]
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+#### 資料處理
+  
+```{r data cleaning, echo=TRUE, eval=T}
+library(tidyverse)
+
+#讀取原始資料
+load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/homework1/graphData_homework2019-10-08_022.Rda?raw=true"))
+
+#轉換語系
+names(graphData$exchangeData) -> name0 # 檢查travelerFromAsia dataframe欄位名稱
+tmcn::toUTF8(name0) -> names(graphData$exchangeData) # 正確轉成utf8 存回原欄位名稱
+names(graphData$exchangeData)
+
+#排列資料
+graphData$exchangeData %>%
+  arrange(desc(人數)) -> graphData$exchangeData
+
+graphData$exchangeData
+```
+
+```{r}
+graphData$exchangeData %>%
+  ggplot()+
+  geom_col(
+  aes(x=`進修交流國家(地區)區域別`,y=人數)
+  )->finalplot
+finalplot
+```
+
+
+
+```{r}
+levels(graphData[[3]][[1]])
+```
+

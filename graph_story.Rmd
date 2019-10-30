@@ -1,0 +1,42 @@
+---
+title: "每週一圖作業_1030"
+output: html_document
+params:
+  組員: ["林書玉"]  
+  學號: ["410575010"]
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+
+#### 繪圖程式
+
+```{r graph, echo=T, eval=T}
+graphData$exchangeData %>%
+  ggplot(aes(x = `進修交流國家(地區)區域別`, y = `人數`))+
+  geom_col()+
+  labs(x = "進修交流國家(地區)區域別", y="")+
+  theme_bw() -> finalplot
+finalplot
+
+
+```
+
+#### 設計說明
+說明想傳達的訊息（必要）及設計想法（非必要）。寫在***下一行。
+
+*** 
+
+

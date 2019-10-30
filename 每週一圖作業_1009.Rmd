@@ -45,7 +45,7 @@ load("C:/Users/user/Desktop/R/PF/dot_plot2019.RData")
 graphData <- list()
 
 #create new factor "area"
-graphData$sub_2015_city <- sub_2015_city%>%
+sub_2015_city <- sub_2015_city%>%
   mutate(area = fct_collapse(city, North = c("Taipei City", "New Taipei City","Keelung City","Taoyuan City","Hsinchu City","Hsinchu County","Yilan County"),
                            Central = c("Miaoli County", "Taichung City","Changhua County","Nantou County","Yunlin County"),
                            South = c("Chiayi City", "Chiayi County","Tainan City","Kaohsiung City","Pingtung County"),

@@ -1,5 +1,5 @@
 ---
-title: "每週一圖作業_1030"
+title: "每週一圖作業_1105"
 output: html_document
 params:
   組員: ["林書玉"]  
@@ -24,11 +24,20 @@ knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
 #### 繪圖程式
 
 ```{r graph, echo=T, eval=T}
-graphData$exchangeData %>%
-  ggplot(aes(x = `進修交流國家(地區)區域別`, y = `人數`))+
-  geom_col()+
-  labs(x = "進修交流國家(地區)區域別", y="")+
-  theme_bw() -> finalplot
+colorspace::sequential_hcl(n = 8, h = c(0, 35), c = c(65, 100, 5), l = c(20, 97), power = c(0.05, 1.45), register = "Palette4")
+
+graphData$joindata %>%
+  ggplot()+
+  geom_raster(aes(x=年月,y=reorder(縣市,人口密度,order=T),fill=人數,hjust=1,vjust=10))+
+  scale_fill_continuous_sequential(palette = "Palette4",breaks=c(1,10,20,30))+
+  theme(axis.text.x = element_text(angle = 45,hjust = 1),
+        plot.background = element_rect(fill = "#F1F1F1",colour="black",size = 1),
+        legend.box.background = element_rect(),
+        legend.box.margin = margin(6,6,6,6))+
+  labs(title = "各縣市近12個月每月登革熱確診人數",
+       caption= "資料來源: 臺灣政府資料開放平臺",
+       x = "",
+       y = "縣市(依人口密度排列)")->finalplot
 finalplot
 
 
@@ -38,5 +47,9 @@ finalplot
 說明想傳達的訊息（必要）及設計想法（非必要）。寫在***下一行。
 
 *** 
+根據原作者(homework3-018)主要想傳達的訊息:`由此可以看出人口越密集，天氣較悶熱潮濕時，登革熱疫情較為嚴重`<br>
+因此做了以下調整協助傳達訊息：
+1. 將時間線由原先的y軸改放置於x軸，更符合視覺直觀判斷。
+2. 新加入台灣各縣市人口密度資料(2018年)，並將y軸的縣市依照人口密度由高到低排列，更容易看出人口密度與病例數的關聯。
 
 

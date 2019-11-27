@@ -1,5 +1,5 @@
 ---
-title: "每週一圖作業_1105"
+title: "data_cleaning_1112"
 output: html_document
 params:
   組員: ["林書玉"]  
@@ -25,23 +25,28 @@ knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
 ```{r data cleaning, echo=TRUE, eval=T}
 
 #讀取原始資料
-load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/homework3/graphData_homework3_018.Rda?raw=true"))
-
-#加入人口密度資料
 library(readxl)
-read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/Density.xlsx") -> graphData$density
+read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/BD_data.xlsx") -> BD_data
 
-#轉換名稱
-c("年月", "縣市", "人數") -> names(graphData$Dengue_Daily_last12m_1) # 改正確名稱存回原欄位名稱
-names(graphData$Dengue_Daily_last12m_1)
+graphData <- list()
 
-#合併資料
-left_join(graphData$Dengue_Daily_last12m_1, graphData$density) -> graphData$joindata
+#reshape data
+BD_data %>%
+gather(`聯繫`, `拜訪`, `一次提案`, `二次提案`, `簽約`,
+       key = "階段", value = "數量") %>%
+  mutate(階段 = as.factor(階段),
+           時間 = as.character(時間) )-> graphData$BD_data
 
-graphData$joindata %>%
-  mutate(縣市 = as.factor(縣市)) -> graphData$joindata
+#重新排序level順序
+graphData$BD_data$階段 <- factor(graphData$BD_data$階段, levels = c("簽約", "二次提案", "一次提案", "拜訪", "聯繫"))
 
-graphData$joindata
+graphData$BD_data$階段
 ```
+
+
+
+
+
+
 
 

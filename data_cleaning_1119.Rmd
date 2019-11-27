@@ -1,5 +1,4 @@
----
-title: "每週一圖作業_1105"
+title: "data_cleaning_1119"
 output: html_document
 params:
   組員: ["林書玉"]  
@@ -25,23 +24,14 @@ knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
 ```{r data cleaning, echo=TRUE, eval=T}
 
 #讀取原始資料
-load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/homework3/graphData_homework3_018.Rda?raw=true"))
-
-#加入人口密度資料
 library(readxl)
-read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/Density.xlsx") -> graphData$density
+read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/resume_data.xlsx") -> resume_data
 
-#轉換名稱
-c("年月", "縣市", "人數") -> names(graphData$Dengue_Daily_last12m_1) # 改正確名稱存回原欄位名稱
-names(graphData$Dengue_Daily_last12m_1)
+graphData <- list()
 
-#合併資料
-left_join(graphData$Dengue_Daily_last12m_1, graphData$density) -> graphData$joindata
-
-graphData$joindata %>%
-  mutate(縣市 = as.factor(縣市)) -> graphData$joindata
-
-graphData$joindata
+#reshape data
+resume_data %>%
+  mutate(地區 = as.factor(地區),
+           地區 = as.character(地區)) %>%
+  group_by(區域) -> graphData$resume_data
 ```
-
-

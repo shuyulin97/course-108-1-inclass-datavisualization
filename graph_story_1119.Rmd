@@ -1,0 +1,57 @@
+---
+title: "graph_story_1119"
+output: html_document
+params:
+  組員: ["林書玉"]  
+  學號: ["410575010"]
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+
+#### 繪圖程式
+
+```{r graph, echo=T, eval=T}
+
+#link:https://www.cakeresume.com/anthony-f?print
+
+graphData$resume_data %>%
+  ggplot(aes(x = reorder(地區, 年份), y = 數量, fill = 區域)) + 
+  geom_col()+
+  scale_fill_manual(values = c("#A7CAD7", "#EAEC94", "#A2E7C6"))+
+  scale_y_continuous(breaks = seq(0, 4000, 1000))+
+  geom_text(aes(x = 地區, y = 數量, label= 數量),
+            color = "black",
+            size = 3,
+            vjust = 1.5 )+
+  theme(axis.text.x = element_text(angle = 45,hjust = 1))+
+  labs(title = "國際新市場開拓成果",
+       caption= "資料來源: CakeResume",
+       x = "",
+       y = "首筆訂單成交量(件)") -> finalplot
+
+finalplot
+
+```
+
+
+#### 設計說明
+說明想傳達的訊息（必要）及設計想法（非必要）。寫在***下一行。
+
+*** 
+本圖呈現履歷主人過去擁有豐富的的國際市場開發經歷與成果，可以看出其開發的市場遍布三大洲，且首筆訂單成交量皆在1000件貨品以上。
+
+
+

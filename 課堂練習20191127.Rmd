@@ -1,0 +1,123 @@
+---
+title: "Untitled"
+author: "ShuYu"
+date: "2019/11/27"
+output: html_document
+---
+
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+```{r}
+library(osmdata)
+library(sf)
+```
+
+```{r}
+st_layers("map.osm")
+
+
+```
+
+```{r}
+st_read("map.osm",layer="lines") -> sf_ntpu_lines #read完才會變sf檔可以畫圖
+```
+
+```{r}
+sf_ntpu_lines %>%
+  ggplot()+geom_sf()
+```
+
+```{r}
+st_read("map.osm",layer="multipolygons") -> sf_ntpu_multipolygons
+```
+
+```{r}
+sf_ntpu_multipolygons %>%
+  ggplot()+geom_sf() -> gg_ntpu
+
+gg_ntpu
+```
+
+#台北小巨蛋
+```{r}
+st_layers("map (1).osm")
+```
+
+```{r}
+st_read("map (1).osm",layer="lines") -> sf_arena_lines
+st_read("map (1).osm",layer="multipolygons") -> sf_arena_multipolygons
+
+sf_arena_multipolygons %>%
+  ggplot()+geom_sf()+
+  geom_sf(
+    data = sf_arena_lines
+  )+
+  coord_sf(
+    xlim = c(121.5455, 121.555),
+    ylim = c(25.046, 25.0525)
+  )+
+  geom_sf_label(
+    data = sf_arena_multipolygons %>%
+      filter( name == "臺北小巨蛋"),
+    aes(label = name)
+  )+
+  labs(
+    x = "",
+    y = ""
+  )
+```
+
+#bbox
+```{r}
+opq(bbox = c(121.55886, 25.03733, 121.5656396, 25.04163)) -> opq_ntpu
+```
+
+
+```{r}
+opq_ntpu %>%
+  add_osm_feature(
+    key = "tourism",
+    value = "attraction"
+  ) %>%
+  osmdata_sf() -> multisf_ntpu
+
+multisf_ntpu[["osm_polygons"]] %>%
+  ggplot()+geom_sf()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

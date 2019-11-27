@@ -1,5 +1,5 @@
 ---
-title: "每週一圖作業_1105"
+title: "每週一圖作業_1104"
 output: html_document
 params:
   組員: ["林書玉"]  
@@ -23,25 +23,23 @@ knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
 #### 資料處理
   
 ```{r data cleaning, echo=TRUE, eval=T}
+library(tidyverse)
 
 #讀取原始資料
-load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/homework3/graphData_homework3_018.Rda?raw=true"))
+load(url("https://github.com/tpemartin/course-108-1-inclass-datavisualization/blob/master/%E4%BD%9C%E5%93%81%E5%B1%95%E7%A4%BA/homework3/graphData_homework3_019.Rda?raw=true"))
 
-#加入人口密度資料
-library(readxl)
-read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/Density.xlsx") -> graphData$density
+graphData[[1]]
+names(graphData)[[1]] <- "rawdata"
+names(graphData)
 
-#轉換名稱
-c("年月", "縣市", "人數") -> names(graphData$Dengue_Daily_last12m_1) # 改正確名稱存回原欄位名稱
-names(graphData$Dengue_Daily_last12m_1)
+#選擇需要的資料
+graphData$rawdata %>%
+  mutate(`師生比` = `教師數`/`學生數`) %>%
+  filter(`科系名稱` == "經濟學系",
+         `日間∕進修別` == "D 日",
+         `等級別` == "B 學士",
+         `體系別` == "1 一般") %>%
+  select(`學校名稱`, `科系名稱`, `學生數`, `教師數`, `師生比`) -> graphData$newdata
+  
 
-#合併資料
-left_join(graphData$Dengue_Daily_last12m_1, graphData$density) -> graphData$joindata
-
-graphData$joindata %>%
-  mutate(縣市 = as.factor(縣市)) -> graphData$joindata
-
-graphData$joindata
 ```
-
-

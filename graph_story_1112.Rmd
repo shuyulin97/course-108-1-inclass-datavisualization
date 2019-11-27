@@ -1,0 +1,73 @@
+---
+title: "graph_story_1112"
+output: html_document
+params:
+  組員: ["林書玉"]  
+  學號: ["410575010"]
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+
+#### 繪圖程式
+
+```{r graph, echo=T, eval=T}
+
+#製做調色盤
+colorspace::sequential_hcl(
+  n = 5, 
+  h = 135, c = c(0, 0, 90), l = c(90, 35), 
+  power = 1.5, 
+  register = "mypalette")
+
+#畫圖
+graphData$BD_data %>%
+  ggplot(aes(時間, weight = 數量, fill = 階段)) + 
+  geom_bar(position = "stack")+
+  scale_fill_discrete_sequential(palette = "mypalette")+
+  scale_y_continuous(breaks = seq(0, 75, 10))+
+  geom_text(mapping = aes(x = 時間, y = 數量, label = 數量),
+            size = 3,
+            colour = 'black',
+            vjust = 1,
+            hjust = .5,
+            position = position_stack())+
+  theme(axis.text.x = element_text(angle = 45,hjust = 1))+
+  labs(title = "2019上半年客戶開發歷程",
+       caption= "資料來源: 自己",
+       x = "",
+       y = "累計數量") -> finalplot
+
+finalplot
+
+```
+
+
+
+#### 設計說明
+說明想傳達的訊息（必要）及設計想法（非必要）。寫在***下一行。
+
+*** 
+本圖呈現自己過往在組織中參與客戶開發歷程，各個銷售流程累計的客戶數量隨時間進展的變化。
+銷售流程主要分為`聯繫`、`拜訪`、`一次提案`、`二次提案`、`簽約` 五大階段，由圖可看出隨時間變化累計的客戶數逐漸上升，聯繫的主要集中在開始開發的前一個月，而簽約其多集中在3月中(開始開發的兩個月)以後。
+
+
+
+
+
+
+
+
+

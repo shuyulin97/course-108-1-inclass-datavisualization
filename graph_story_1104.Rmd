@@ -1,0 +1,57 @@
+---
+title: "每週一圖作業_1104"
+output: html_document
+params:
+  組員: ["林書玉"]  
+  學號: ["410575010"]
+---
+
+#### 環境設定
+
+以下為老師執行時一定會存在的環境設定
+```{r basic setup, message=FALSE, echo=TRUE, eval=T}
+rm(list=ls())
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
+library(tidyr); library(showtext); library(tidyverse); library(colorspace)
+
+#font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+```
+
+
+#### 繪圖程式
+
+```{r graph, echo=T, eval=T}
+colorspace::sequential_hcl(n = 3, h = c(-4, 80), c = c(100, NA, 47), l = c(55, 96), power = c(1, NA), rev = TRUE, register = "Custom-Palette")
+
+graphData$dayschool %>%
+  ggplot()+
+  geom_col(aes(x=reorder(學校名稱,`學生數`,order=T),y=學生數,fill=(教師數),width=0.5))+
+  scale_fill_discrete_sequential(
+  palette="Custom-Palette")+
+  geom_text(
+    aes(
+      x=reorder(學校名稱,`學生數`,order=T),y=學生數+70,label=round(學生數)
+      ),color="green", size = 3)+
+  labs(y="學士人數",x="有經濟系的學校(17所)",title="(107)我國經濟學系學士人數")+
+
+  coord_flip()+
+geom_hline(aes(y=學生數,width=0.5,yintercept=400),linetype="dotted",color="red")
+```
+
+#### 設計說明
+說明想傳達的訊息（必要）及設計想法（非必要）。寫在***下一行。
+
+*** 
+1. 連續性的
+2. 師生比比較有意義
+
+
+
+
+
+
+
+

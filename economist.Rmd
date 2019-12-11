@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "The Economist"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -71,7 +71,7 @@ dim(qr_raster) <- qr_dim
 
 
 
-Column {data-width=650}
+Row {data-width=100}
 -----------------------------------------------------------------------
 
 ### Chart A

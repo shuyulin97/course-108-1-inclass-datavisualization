@@ -95,6 +95,25 @@ multisf_ntpu[["osm_polygons"]] %>%
 
 ```
 
+```{r}
+library(osmdata)
+# open pass query with bounding box
+bbox_taipei <- opq(
+  bbox = c(121.4616,25.1050,121.6058,24.9894) 
+) 
+```
+
+
+
+```{r}
+bbox_taipei %>% 
+  add_osm_feature(
+    key="railway", value="subway"
+  ) %>%
+  osmdata_sf() -> map_taipei_subway
+
+map_taipei_subway
+```
 
 
 

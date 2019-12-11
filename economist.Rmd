@@ -10,8 +10,9 @@ output:
 library(flexdashboard)
 ```
 
-#前置準備
+
 ```{r}
+#前置準備
 library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
 library(tidyr); library(showtext); library(tidyverse); library(colorspace)
 library(sf)
@@ -22,8 +23,9 @@ theme_set(theme_classic())
 knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
 ```
 
-#取得經濟學人文章資料
+
 ```{r}
+#取得經濟學人文章資料
 library(dplyr); library(rvest); library(stringr)
 source("https://www.dropbox.com/s/4tubw8e5h3cem6w/theEconomist.R?dl=1", encoding = "utf-8")
 
@@ -32,28 +34,32 @@ source("https://www.dropbox.com/s/4tubw8e5h3cem6w/theEconomist.R?dl=1", encoding
 
 ```
 
-#取得世界地圖資料
+
 ```{r}
+#取得世界地圖資料
 data(world,package="spData")
 ```
 
-#創造文章資料dataframe:國家-事件類別
+
 ```{r}
+
 econ_politics_df <- data.frame(
   country = c('Sri Lanka', 'China','Republic of Korea', 'Afghanistan', 'Iran', 'Israeli', 'Syria', 'Burkina Faso', 'Mali', 'Niger', 'Brazil', 'Chile', 'Bolivia', 'United Kingdom', 'Sweden', 'Belarus', 'United States'),
   event = c('positive', 'negative', 'neutral', 'neutral', 'negative', 'negative', 'negative', 'negative', 'negative', 'negative', 'negative', 'positive', 'negative', 'neutral', 'neutral', 'neutral', 'neutral')
 )
 ```
 
-#left_join加入world合併資料
+
 ```{r}
+#left_join加入world合併資料
 final_world_df <-
   left_join(world, econ_politics_df, by = c("name_long" = "country"))
 ```
 
 
-#產生QRode
+
 ```{r}
+#產生QRode
 qrcode_gen("https://www.economist.com/the-world-this-week/2019/11/21/politics-this-week",
            dataOutput=TRUE, plotQRcode=F) -> qr_matrix
 

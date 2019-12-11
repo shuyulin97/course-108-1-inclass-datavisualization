@@ -5,8 +5,8 @@ account: susanlin110324
 server: bookdown.org
 hostUrl: https://bookdown.org/__api__
 appId: 3429
-bundleId: 16553
+bundleId: 16554
 url: https://bookdown.org/susanlin110324/economist/
-when: 1576026820.21014
+when: 1576028401.7358
 asMultiple: TRUE
 asStatic: TRUE

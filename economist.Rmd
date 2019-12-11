@@ -15,14 +15,11 @@ library(flexdashboard)
 library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(colorspace); library(grDevices); library(shiny); library(shinyjs); library(scales)
 library(tidyr); library(showtext); library(tidyverse); library(colorspace)
 library(sf)
+library(qrcode)
 #font_add("QYuan","cwTeXQYuan-Medium.ttf") # 新增字體
 showtext_auto(enable=TRUE) #啟用字體
 theme_set(theme_classic())
 knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
-```
-
-```{r}
-install.packages(c("rvest","XML","xml2"))
 ```
 
 #取得經濟學人文章資料
@@ -33,7 +30,6 @@ source("https://www.dropbox.com/s/4tubw8e5h3cem6w/theEconomist.R?dl=1", encoding
 "https://www.economist.com/the-world-this-week/2019/11/21/politics-this-week" %>%
   get_theWorldThisWeek() -> df_politics
 
-
 ```
 
 #取得世界地圖資料
@@ -41,25 +37,38 @@ source("https://www.dropbox.com/s/4tubw8e5h3cem6w/theEconomist.R?dl=1", encoding
 data(world,package="spData")
 ```
 
-#繪製查看世界地圖
-```{r}
-world %>%
-  ggplot()+geom_sf(aes(fill = type))
-```
-
 #創造文章資料dataframe:國家-事件類別
 ```{r}
 econ_politics_df <- data.frame(
-  country = c('Sri Lanka', 'China','Republic of Korea', '	Afghanistan', 'Iran', 'Israeli'),
-  event = c('動亂', '抗爭', '國際', '戰爭', '抗爭', ''),
-  light = c('紅燈', '紅燈', '黃燈', '黃燈', '紅燈', '')
+  country = c('Sri Lanka', 'China','Republic of Korea', 'Afghanistan', 'Iran', 'Israeli', 'Syria', 'Burkina Faso', 'Mali', 'Niger', 'Brazil', 'Chile', 'Bolivia', 'United Kingdom', 'Sweden', 'Belarus', 'United States'),
+  event = c('positive', 'negative', 'neutral', 'neutral', 'negative', 'negative', 'negative', 'negative', 'negative', 'negative', 'negative', 'positive', 'negative', 'neutral', 'neutral', 'neutral', 'neutral')
 )
 ```
 
+#left_join加入world合併資料
+```{r}
+final_world_df <-
+  left_join(world, econ_politics_df, by = c("name_long" = "country"))
+```
 
 
+#產生QRode
+```{r}
+qrcode_gen("https://www.economist.com/the-world-this-week/2019/11/21/politics-this-week",
+           dataOutput=TRUE, plotQRcode=F) -> qr_matrix
 
-#left_join加入world資料
+qr_dim <- dim(qr_matrix)
+qr_matrix %>%
+  as.character() %>%
+  str_replace_all(
+    c("1"="black",
+      "0"="white")
+  ) -> qr_raster
+
+dim(qr_raster) <- qr_dim
+
+```
+
 
 
 Column {data-width=650}
@@ -68,21 +77,10 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-
+final_world_df %>%
+  ggplot()+geom_sf(aes(fill = event))+
+  scale_fill_manual(values=c("red", "yellow","green", "white"))+
+  labs(title = "The World This Week - Politics / 2019-11-21")+
+  annotation_raster(qr_raster, -175, -125, -50, 0)
+  
 ```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
-```
-
-### Chart C
-
-```{r}
-
-```
-

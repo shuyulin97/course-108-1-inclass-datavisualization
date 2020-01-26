@@ -1,5 +1,5 @@
 ---
-title: "台北大學甜課地圖"
+title: "NTPU Sweet Course-台北大學甜課指南"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: fill
@@ -14,11 +14,13 @@ output:
 library(flexdashboard)
 library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext); library(sf); library(osmdata); library(rmapshaper); library(htmlwidgets); library(widgetframe); library(htmltools)
 library(spData); library(colorspace)
+```
 
+```{r}
 font_add("QYuan","C:/Users/user/Desktop/R/cwTeXQYuan-Medium.ttf") # 新增字體
 showtext_auto(enable=TRUE) #啟用字體
 theme_set(theme_classic())
-knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+knitr::opts_chunk$set(fig.align='center', fig.showtext=F)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -27,25 +29,8 @@ load("finalProject.Rda")
 ```
 
 ```{r, include=FALSE}
-gradeData %>% 
-  mutate(開課系所 = as.factor(開課系所)) %>%
-  group_by(開課系所) %>%
-  summarise(平均成績 = round(mean(學期成績),digits = 1),
-            開課數量 = length(開課系所))%>%
-  arrange(desc(平均成績), desc(開課數量))-> gradeData_alldep_mean
 
-gradeData_alldep_mean %>%
-  ggplot(aes(x = reorder(開課系所, 平均成績), y = 平均成績))+
-  geom_col(fill = "skyblue")+
-  labs(x = "")+
-  theme(axis.text.x = element_text(angle=60, vjust=1, hjust = 1))+
-  geom_text(aes(x = 開課系所, y = 平均成績, label = 平均成績),
-            nudge_y = 3, size = 2.5)+
-  geom_hline(aes(yintercept = 76.3), linetype = "dashed", color = "blue")+
-  annotate("text", x = 23, y = 76.3, label = "76.3", size = 2.5, color = "blue",
-           hjust = 0.1, vjust = 2)
-
-gridSVG::grid.export("alldep_mean.svg",addClasses=TRUE)
+#gridSVG::grid.export("alldep_mean.svg",addClasses=TRUE)
 
 ```
 
@@ -60,32 +45,153 @@ gridSVG::grid.export("alldep_mean.svg",addClasses=TRUE)
 ```
 
 
-Column 
+Column {data-width=650}
 -------------------------------------
     
-### Chart 1
+### 系所總覽-哪個系所開的課最甜?
     
 ```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所)) %>%
+  group_by(開課系所) %>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1),
+            開課數量 = length(unique(科目名稱)))%>%
+  arrange(desc(平均成績), desc(開課數量))-> gradeData_alldep_mean
+
+gradeData_alldep_mean %>%
+  ggplot(aes(x = reorder(開課系所, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "skyblue")+
+  labs(x = "開課系所", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 開課系所, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 76.3), linetype = "dashed", color = "blue")+
+  annotate("text", x = 25, y = 76.3, label = "總平均 76.3", size = 3, color = "blue",
+           hjust = 1.1, vjust = -2)
+
 
 ```
-<object id= pic data="alldep_mean.svg" type="image/svg+xml" width="100%" >
 
-
-### Chart 2
-    
-```{r}
-```
 
 
 Column {.tabset}
 -------------------------------------
-   
-### Chart 3
+
+### 統計系
 
 ```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所),
+         科目名稱 = as.factor(科目名稱)) %>%
+  group_by(科目名稱)%>%
+  filter(開課系所 == "統計學系")%>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1)) -> statistics
+
+statistics %>%
+  ggplot(aes(x = reorder(科目名稱, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "#b6d7a8")+
+  labs(x = "科目名稱", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 科目名稱, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 65), linetype = "dashed", color = "#38761d")+
+  annotate("text", x = 23, y = 76.3, label = "總平均 65", size = 3, color = "#38761d",
+           hjust = 1, vjust = 4)
+
+
 ```   
  
-### Chart 4
+
+
+### 經濟系
+
+```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所),
+         科目名稱 = as.factor(科目名稱)) %>%
+  group_by(科目名稱)%>%
+  filter(開課系所 == "經濟學系")%>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1)) -> econ
+
+econ %>%
+  ggplot(aes(x = reorder(科目名稱, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "#b6d7a8")+
+  labs(x = "科目名稱", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 科目名稱, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 77.3), linetype = "dashed", color = "#38761d")+
+  annotate("text", x = 14, y = 77.3, label = "總平均 77.3", size = 3, color = "#38761d",
+           hjust = 1, vjust = -1)
+
+``` 
+   
+### 會計系
+
+```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所),
+         科目名稱 = as.factor(科目名稱)) %>%
+  group_by(科目名稱)%>%
+  filter(開課系所 == "會計學系")%>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1)) -> acc
+
+acc %>%
+  ggplot(aes(x = reorder(科目名稱, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "#b6d7a8")+
+  labs(x = "科目名稱", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 科目名稱, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 77.3), linetype = "dashed", color = "#38761d")+
+  annotate("text", x = 15, y = 75.3, label = "總平均 75.3", size = 3, color = "#38761d",
+           hjust = 1, vjust = -1)
+
+```   
+ 
+
+### 應外系
     
 ```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所),
+         科目名稱 = as.factor(科目名稱)) %>%
+  group_by(科目名稱)%>%
+  filter(開課系所 == "應用外語學系")%>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1)) -> language
+
+language %>%
+  ggplot(aes(x = reorder(科目名稱, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "#b6d7a8")+
+  labs(x = "科目名稱", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 科目名稱, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 77.3), linetype = "dashed", color = "#38761d")+
+  annotate("text", x = 7, y = 78.2, label = "總平均 78.2", size = 3, color = "#38761d",
+           hjust = 1, vjust = -1)
+
+```
+
+### 體育
+    
+```{r}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所),
+         科目名稱 = as.factor(科目名稱)) %>%
+  group_by(科目名稱)%>%
+  filter(開課系所 == "體育")%>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1)) -> sport
+
+sport %>%
+  ggplot(aes(x = reorder(科目名稱, desc(平均成績)), y = 平均成績))+
+  geom_col(fill = "#b6d7a8")+
+  labs(x = "科目名稱", y = "平均學期成績")+
+  theme(axis.text.x = element_text(angle=70, vjust=1, hjust = 1))+
+  geom_text(aes(x = 科目名稱, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 77.3), linetype = "dashed", color = "#38761d")+
+  annotate("text", x = 6, y = 82.5, label = "總平均 82.5", size = 3, color = "#38761d",
+           hjust = 1, vjust = 1.5)
+
 ```

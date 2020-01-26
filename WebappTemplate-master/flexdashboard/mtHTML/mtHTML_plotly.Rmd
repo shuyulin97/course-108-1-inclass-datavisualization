@@ -1,0 +1,60 @@
+---
+output: 
+  html_document:
+    theme: null
+    highlight: null
+    mathjax: null
+    self_contained: false
+    includes:
+      in_header: "external/in_header/header.html"
+      before_body: "external/before_body/before_body.html"
+      after_body: "external/after_body/after_body.html"
+params:
+  output_filename: "mtHTML_plotly.html"
+---
+
+```{r local serve, eval=F, echo=F}
+servr::daemon_stop(
+  which=servr::daemon_list()
+)
+servr::httd(dir=".",port=8000,initpath=params$output_filename)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message=F, warning=F)
+library(dplyr); library(ggplot2); library(plotly); library(widgetframe)
+```
+
+<div style="position: relative;">
+
+<!--1. mtHTML_plotly.Rmd: 手動執行plotly widget轉frameable html-->
+```{r, eval=F, echo=F}
+library(dplyr)
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+   geom_point() + geom_smooth()
+pltly_p0 <- ggplotly(p)
+
+# 將plotly htmlwidget存成html檔
+htmlwidgets::saveWidget(frameableWidget(pltly_p0),'pltly_p0.html')
+
+# 加工使html在iframe時有responsive
+"pltly_p0.html" %>%
+  to_frameableHTML(regularHTML = T) # plotly htmlwidget要
+```
+
+<!--2. mtHTML_plotly.Rmd: 貼上to_frameableHTML的提示-->
+<div id="example" width="100%" height="100%"></div>
+<script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+<script>
+    var pymParent = new pym.Parent("example", "pltly_p0.html", {});
+</script>
+
+<!--此處為Materialize framework的浮鈕功能--> 
+```{r, eval=T, echo=F}
+htmltools::includeHTML("external/within_body/mtContent.html")
+```
+
+<!--3. knit mtHTML_plotly.Rmd --> 
+
+<div>
+

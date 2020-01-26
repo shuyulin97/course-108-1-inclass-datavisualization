@@ -1,0 +1,50 @@
+---
+title: "範本"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    css: ['css/mystyle.css']
+    includes:
+      in_header: ["external/in_header/header.html"]
+      before_body: ["external/before_body/bf_body.html"]
+      after_body: ["external/after_body/af_body.html"]
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+控制台 {.sidebar}
+------------------------
+
+<div id="example"></div>
+<script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+<script>
+    var pymParent = new pym.Parent('example', 'controlPanel.html', {});
+</script>
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

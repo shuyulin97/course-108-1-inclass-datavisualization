@@ -1,0 +1,138 @@
+---
+title: "NTPU UFO"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    css: ['css/mystyle.css']
+    includes:
+      in_header: ["external/in_header/header.html"]
+      before_body: ["external/before_body/bf_body.html"]
+      after_body: ["external/after_body/af_body.html"]
+---
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext); library(sf); library(osmdata); library(rmapshaper); library(htmlwidgets); library(widgetframe); library(htmltools)
+library(spData); library(colorspace)
+font_add("QYuan","C:/Users/user/Desktop/R/cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T, echo = FALSE)
+```
+
+
+```{r}
+## import data
+
+all_data <- readxl::read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/1228/all.xlsx")
+
+movie_data <- readxl::read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/1228/movie.xlsx")
+
+toy_data <- readxl::read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/1228/toy.xlsx")
+
+music_data <- readxl::read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/1228/music.xlsx")
+
+```
+
+```{r}
+#library(svglite)
+#library(gridSVG)
+```
+
+
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### 所有活動統計
+
+```{r}
+all_data %>%
+  ggplot(aes(x = event, y = count, fill = event))+
+  geom_col()+
+  labs(x = "活動",
+       y = "點擊次數")+
+  scale_fill_manual(values=c("#5CB85C", "#888888","#E85471"))+
+  theme(legend.position="none")+
+  geom_text(mapping = aes(x = event, y = count, label = count),
+            size = 3,
+            colour = 'black',
+            vjust = -1,
+            hjust = 0)-> all_plot
+
+all_plot
+#ggsave(file = "all_plot.svg", height = 10, width = 15, units = "cm")
+
+```
+
+
+
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### 北大玩具節
+
+```{r}
+toy_data %>%
+  ggplot(aes(x = event, y = count))+
+  geom_col(fill = "#5CB85C")+
+  labs(x = "",
+       y = "點擊次數")+
+  theme(legend.position="none")+
+  geom_text(mapping = aes(x = event, y = count, label = count),
+            size = 3,
+            colour = 'black',
+            vjust = -0.5,
+            hjust = 0)-> toy_plot
+toy_plot
+
+```
+
+
+
+
+
+### 青銀共賞電影
+
+```{r}
+movie_data %>%
+  ggplot(aes(x = event, y = count))+
+  geom_col(fill = "#888888")+
+  labs(x = "",
+       y = "點擊次數")+
+  theme(legend.position="none")+
+  geom_text(mapping = aes(x = event, y = count, label = count),
+            size = 3,
+            colour = 'black',
+            vjust = -0.5,
+            hjust = 0)-> movie_plot
+movie_plot
+#ggsave(file = "music_plot.svg", height = 7, width = 15, units = "cm")
+
+```
+
+### 聖誕點燈暨北大管樂節
+
+```{r}
+music_data %>%
+  ggplot(aes(x = event, y = count))+
+  geom_col(fill = "#E85471")+
+  labs(x = "",
+       y = "點擊次數")+
+  theme(legend.position="none")+
+  geom_text(mapping = aes(x = event, y = count, label = count),
+            size = 3,
+            colour = 'black',
+            vjust = -0.5,
+            hjust = 0)-> music_plot
+music_plot
+
+#ggsave(file = "music_plot.svg", height = 7, width = 15, units = "cm")
+```
+
+
+
+

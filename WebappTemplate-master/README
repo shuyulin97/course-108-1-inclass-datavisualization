@@ -1,0 +1,22 @@
+# planHTML.Rmd
+
+# bs4HTML.Rmd
+
+  * [Bootstrap 4 framework](https://getbootstrap.com/)
+
+# mtHTML.Rmd
+
+  * [Materialize framework](https://materializecss.com/)
+  
+# skeletonHTML
+
+  * [Skeleton framework](http://getskeleton.com/)
+
+# flxDB_embedExamples.Rmd
+
+  * Flexdashboard filled with the examples of embed:  
+    
+    * JSON, SVG, htmlwidgets, other HTMLs 
+    
+    * sidebar
+

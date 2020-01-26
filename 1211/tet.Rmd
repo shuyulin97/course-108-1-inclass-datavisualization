@@ -1,0 +1,52 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    self_contained: true
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+```{r}
+library(gridSVG)
+```
+
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### US
+
+```{r}
+load("plot_us.Rda")
+plot_us
+gridSVG::grid.export("plot1.svg",addClasses=TRUE)
+```
+
+
+
+
+
+
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### China
+
+```{r}
+
+```
+
+### Saudi Arabia
+
+```{r}
+
+```
+

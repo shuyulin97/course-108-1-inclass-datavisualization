@@ -1,0 +1,21 @@
+<!--以HTML語法寫下要放在body結尾的內容, 不可使用任何code chunks-->
+<!--以HTML語法寫下要放在before body的內容-->
+<!--JavaScript at end of body for optimized loading-->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/init.js"></script>
+
+<!--
+<script type="text/javascript">
+window.onload=function(){
+  var jsonData=document.getElementById('myJson').innerHTML;
+  jsonData=JSON.parse(jsonData); //JSON轉成JS object
+  var graphDiv = document.getElementById('myPlot');
+  var data=jsonData["data"],
+      layout=jsonData["layout"],
+      config=jsonData["config"];
+  
+  Plotly.newPlot(graphDiv, data, layout, config);  
+}
+</script>
+-->

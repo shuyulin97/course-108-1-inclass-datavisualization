@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Plain HTML</title>
+
+<!--以HTML語法寫下要放在head的內容, 不可使用任何code chunks-->
+
+
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+<!--以HTML語法寫下要放在body一開頭的內容, 不可使用任何code chunks-->
+
+
+<h1 class="title toc-ignore">Plain HTML</h1>
+
+
+
+<p>此模版產生一個沒有使用任何外掛framework及js library的html檔。</p>
+<div id="body內容範例" class="section level2">
+<h2>body內容範例</h2>
+<div id="r-markdown" class="section level3">
+<h3>R Markdown</h3>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
+<div id="svg" class="section level3">
+<h3>SVG</h3>
+<p>引入<code>assets/party.svg</code>:</p>
+<object id="myObject" data="assets/party.svg" type="image/svg+xml" width="100%">
+</object>
+</div>
+<div id="json" class="section level3">
+<h3>JSON</h3>
+<script type="application/json" id="myJson">[{"speed":4,"dist":2},{"speed":4,"dist":10},{"speed":7,"dist":4},{"speed":7,"dist":22},{"speed":8,"dist":16},{"speed":9,"dist":10},{"speed":10,"dist":18},{"speed":10,"dist":26},{"speed":10,"dist":34},{"speed":11,"dist":17},{"speed":11,"dist":28},{"speed":12,"dist":14},{"speed":12,"dist":20},{"speed":12,"dist":24},{"speed":12,"dist":28},{"speed":13,"dist":26},{"speed":13,"dist":34},{"speed":13,"dist":34},{"speed":13,"dist":46},{"speed":14,"dist":26},{"speed":14,"dist":36},{"speed":14,"dist":60},{"speed":14,"dist":80},{"speed":15,"dist":20},{"speed":15,"dist":26},{"speed":15,"dist":54},{"speed":16,"dist":32},{"speed":16,"dist":40},{"speed":17,"dist":32},{"speed":17,"dist":40},{"speed":17,"dist":50},{"speed":18,"dist":42},{"speed":18,"dist":56},{"speed":18,"dist":76},{"speed":18,"dist":84},{"speed":19,"dist":36},{"speed":19,"dist":46},{"speed":19,"dist":68},{"speed":20,"dist":32},{"speed":20,"dist":48},{"speed":20,"dist":52},{"speed":20,"dist":56},{"speed":20,"dist":64},{"speed":22,"dist":66},{"speed":23,"dist":54},{"speed":24,"dist":70},{"speed":24,"dist":92},{"speed":24,"dist":93},{"speed":24,"dist":120},{"speed":25,"dist":85}]</script>
+<script type="text/javascript">
+// 引入json成為JavaScript data, jsData.
+var jsData=document.getElementById('myJson').innerHTML;
+jsData=JSON.parse(jsData);
+</script>
+<p>或以html語法直接寫在R Markdown:</p>
+<script type="text/javascript">
+// 引入json成為JavaScript data, jsData2.
+var jsData2=document.getElementById('myJson').innerHTML;
+jsData2=JSON.parse(jsData);
+</script>
+</div>
+<div id="html-css" class="section level3">
+<h3>HTML CSS</h3>
+<ul>
+<li>此部份內容還是建議以html語法寫在’external/in_header/header.html’檔案裡。</li>
+</ul>
+<style type="text/css">
+.exampleClass {
+  background-color: aliceblue;
+  height: 200px;
+  width: 400px;
+}
+</style>
+<p>或以html語法直接寫在R Markdown:</p>
+<style>
+.exampleClass2 {
+  background-color: pink;
+  height: 200px;
+  width: 400px;
+}
+</style>
+</div>
+<div id="html-element" class="section level3">
+<h3>HTML element</h3>
+<p>直接以html語法寫在R Markdown:</p>
+<div id="myDiv" class="exampleClass">
+
+</div>
+<div id="myDiv2" class="exampleClass2">
+
+</div>
+</div>
+</div>
+<div id="不同情境使用" class="section level2">
+<h2>不同情境使用</h2>
+<p>以下各段code chunk在knit時並不會執行，只有在各別按執行鈕時執行</p>
+<div id="local-serve" class="section level3">
+<h3>local serve</h3>
+<p>執行完後，按Viewer panel的跳出鈕會在browser以local serve方式預覽文件：</p>
+</div>
+<div id="加html在head" class="section level3">
+<h3>加html在head</h3>
+</div>
+<div id="加html在after_body" class="section level3">
+<h3>加html在after_body</h3>
+</div>
+</div>
+
+<!--以HTML語法寫下要放在body結尾的內容, 不可使用任何code chunks-->
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

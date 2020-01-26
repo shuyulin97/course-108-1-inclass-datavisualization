@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Bootstrap 4 HTML</title>
+
+<!--以HTML語法寫下要放在head的內容, 不可使用任何code chunks-->
+
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+<!--中文字體，必需在所有style sheets之後以取得優先權-->
+<style>
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+</style>
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+<!--以HTML語法寫下要放在body一開頭的內容, 不可使用任何code chunks-->
+
+
+<h1 class="title toc-ignore">Bootstrap 4 HTML</h1>
+
+
+
+<p>此模版產生一個使用 Bootstrap 4 framework的html檔。</p>
+<div id="body內容範例" class="section level2">
+<h2>body內容範例</h2>
+<div id="r-markdown" class="section level3">
+<h3>R Markdown</h3>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
+<div id="javascript" class="section level3">
+<h3>Javascript</h3>
+<p>所有javascript在測試過沒問題後，建議把它們都移至<code>./js/init.js</code>檔案裡。</p>
+</div>
+<div id="svg" class="section level3">
+<h3>SVG</h3>
+<p>引入<code>assets/party.svg</code>:</p>
+<ul>
+<li>調整圖大小請改width.</li>
+</ul>
+<object id="myObject" data="assets/party.svg" type="image/svg+xml" width="10%">
+</object>
+</div>
+<div id="json" class="section level3">
+<h3>JSON</h3>
+<script type="application/json" id="myJson">[{"speed":4,"dist":2},{"speed":4,"dist":10},{"speed":7,"dist":4},{"speed":7,"dist":22},{"speed":8,"dist":16},{"speed":9,"dist":10},{"speed":10,"dist":18},{"speed":10,"dist":26},{"speed":10,"dist":34},{"speed":11,"dist":17},{"speed":11,"dist":28},{"speed":12,"dist":14},{"speed":12,"dist":20},{"speed":12,"dist":24},{"speed":12,"dist":28},{"speed":13,"dist":26},{"speed":13,"dist":34},{"speed":13,"dist":34},{"speed":13,"dist":46},{"speed":14,"dist":26},{"speed":14,"dist":36},{"speed":14,"dist":60},{"speed":14,"dist":80},{"speed":15,"dist":20},{"speed":15,"dist":26},{"speed":15,"dist":54},{"speed":16,"dist":32},{"speed":16,"dist":40},{"speed":17,"dist":32},{"speed":17,"dist":40},{"speed":17,"dist":50},{"speed":18,"dist":42},{"speed":18,"dist":56},{"speed":18,"dist":76},{"speed":18,"dist":84},{"speed":19,"dist":36},{"speed":19,"dist":46},{"speed":19,"dist":68},{"speed":20,"dist":32},{"speed":20,"dist":48},{"speed":20,"dist":52},{"speed":20,"dist":56},{"speed":20,"dist":64},{"speed":22,"dist":66},{"speed":23,"dist":54},{"speed":24,"dist":70},{"speed":24,"dist":92},{"speed":24,"dist":93},{"speed":24,"dist":120},{"speed":25,"dist":85}]</script>
+<script type="text/javascript">
+// 引入json成為JavaScript data, jsData.
+var jsData=document.getElementById('myJson').innerHTML;
+jsData=JSON.parse(jsData);
+</script>
+<p>或以html語法直接寫在R Markdown:</p>
+<script type="text/javascript">
+// 引入json成為JavaScript data, jsData2.
+var jsData2=document.getElementById('myJson').innerHTML;
+jsData2=JSON.parse(jsData);
+</script>
+</div>
+<div id="html-css" class="section level3">
+<h3>HTML CSS</h3>
+<ul>
+<li>此部份內容還是建議以html語法寫在’external/in_header/header.html’檔案裡。</li>
+</ul>
+<style type="text/css">
+.exampleClass {
+  background-color: aliceblue;
+  height: 50px;
+  width: 50px;
+}
+</style>
+<p>或以html語法直接寫在R Markdown:</p>
+<style>
+.exampleClass2 {
+  background-color: pink;
+  height: 50px;
+  width: 50px;
+}
+</style>
+</div>
+<div id="html-element" class="section level3">
+<h3>HTML element</h3>
+<p>直接以html語法寫在R Markdown:</p>
+<div id="myDiv" class="exampleClass">
+
+</div>
+<div id="myDiv2" class="exampleClass2">
+
+</div>
+</div>
+<div id="bootstrap-4" class="section level3">
+<h3>Bootstrap 4</h3>
+<ul>
+<li><p><a href="https://getbootstrap.com/docs/4.4/getting-started/introduction/" class="uri">https://getbootstrap.com/docs/4.4/getting-started/introduction/</a></p></li>
+<li><p>不要直接剪貼bs4 html code在主Rmd檔內，而是另外存在外部<code>.html</code>檔再以下面方式引入——因為RMarkdown對於「內縮兩次以上」的文字就不會以html code來處理。</p></li>
+<li><p>以下範例來自Carousel with controls: <a href="https://getbootstrap.com/docs/4.4/components/carousel/" class="uri">https://getbootstrap.com/docs/4.4/components/carousel/</a></p></li>
+</ul>
+<style>
+.smallImg {
+  width: 20%;
+}
+  
+</style>
+
+<div id="carouselExampleControls" class="carousel slide smallImg" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://i.imgur.com/UDbJDf7.jpg" class="d-block w-100 smallImg" alt="..." width="20%">
+    </div>
+    <div class="carousel-item">
+      <img src="https://i.imgur.com/pOetNgR.jpg" class="d-block w-100 smallImg" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://i.imgur.com/2yspe09.jpg" class="d-block w-100 smallImg" alt="...">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+</div>
+</div>
+<div id="不同情境使用" class="section level2">
+<h2>不同情境使用</h2>
+<p>以下各段code chunk在knit時並不會執行，只有在各別按執行鈕時執行</p>
+<div id="local-serve" class="section level3">
+<h3>local serve</h3>
+<p>執行完後，按Viewer panel的跳出鈕會在browser以local serve方式預覽文件：</p>
+</div>
+<div id="加html在head" class="section level3">
+<h3>加html在head</h3>
+</div>
+<div id="加html在after_body" class="section level3">
+<h3>加html在after_body</h3>
+</div>
+</div>
+
+<!--以HTML語法寫下要放在body結尾的內容, 不可使用任何code chunks-->
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="./js/init.js"></script>
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

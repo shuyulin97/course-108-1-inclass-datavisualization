@@ -1,0 +1,43 @@
+---
+title: "Untitled"
+author: "ShuYu"
+date: "2020/1/14"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext); library(sf); library(osmdata); library(rmapshaper); library(htmlwidgets); library(widgetframe); library(htmltools)
+library(spData); library(colorspace)
+font_add("QYuan","C:/Users/user/Desktop/R/cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T, echo = FALSE)
+```
+
+
+
+```{r}
+ENT_data <- readxl::read_excel("C:/Users/user/Desktop/R/course-108-1-inclass-datavisualization/visual.xlsx")
+
+ENT_data %>%
+  mutate(Capital = as.numeric(Capital))
+```
+
+
+```{r}
+ENT_data %>%
+  ggplot(aes(x = Industry, y = Capital, color = Type))+
+  geom_point()+
+  scale_y_discrete(breaks=seq(0,200000000000,1000000))
+```
+
+
+
+
+
+
+
+

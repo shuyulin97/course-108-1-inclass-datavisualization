@@ -1,0 +1,39 @@
+---
+title: "課堂練習20191225"
+author: "ShuYu"
+date: "2019/12/25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("https://www.dropbox.com/s/mdx4777ugnluspz/webApplications.R?dl=1", encoding = "UTF-8")
+```
+
+```{r}
+
+```
+
+<div id="example"></div>
+<script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+<script>
+    var pymParent = new pym.Parent('example', 'controlPanel.html', {});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

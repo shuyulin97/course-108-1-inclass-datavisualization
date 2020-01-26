@@ -1,0 +1,91 @@
+---
+title: "台北大學甜課地圖"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: fill
+    css: ['css/mystyle.css']
+    includes:
+      in_header: ["external/in_header/header.html"]
+      before_body: ["external/before_body/bf_body.html"]
+      after_body: ["external/after_body/af_body.html"]
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr); library(stringr); library(ggplot2); library(plotly); library(lubridate); library(readr); library(tidyr); library(showtext); library(sf); library(osmdata); library(rmapshaper); library(htmlwidgets); library(widgetframe); library(htmltools)
+library(spData); library(colorspace)
+
+font_add("QYuan","C:/Users/user/Desktop/R/cwTeXQYuan-Medium.ttf") # 新增字體
+showtext_auto(enable=TRUE) #啟用字體
+theme_set(theme_classic())
+knitr::opts_chunk$set(fig.align='center', fig.showtext=T)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+load("finalProject.Rda")
+```
+
+```{r, include=FALSE}
+gradeData %>% 
+  mutate(開課系所 = as.factor(開課系所)) %>%
+  group_by(開課系所) %>%
+  summarise(平均成績 = round(mean(學期成績),digits = 1),
+            開課數量 = length(開課系所))%>%
+  arrange(desc(平均成績), desc(開課數量))-> gradeData_alldep_mean
+
+gradeData_alldep_mean %>%
+  ggplot(aes(x = reorder(開課系所, 平均成績), y = 平均成績))+
+  geom_col(fill = "skyblue")+
+  labs(x = "")+
+  theme(axis.text.x = element_text(angle=60, vjust=1, hjust = 1))+
+  geom_text(aes(x = 開課系所, y = 平均成績, label = 平均成績),
+            nudge_y = 3, size = 2.5)+
+  geom_hline(aes(yintercept = 76.3), linetype = "dashed", color = "blue")+
+  annotate("text", x = 23, y = 76.3, label = "76.3", size = 2.5, color = "blue",
+           hjust = 0.1, vjust = 2)
+
+gridSVG::grid.export("alldep_mean.svg",addClasses=TRUE)
+
+```
+
+```{r}
+#使用者:台北大學學生選課指南
+#gradedata-開課系所與成績(哪個系的課最甜):整體/必修課/選修課/通識課
+#gradedata-開課系所與成績(哪個系的課最硬):整體/必修課/選修課/通識課
+#coursedata-熱門通識課(滿班)
+#coursedata-熱門體育課(滿班)
+#coursedata-商院共同必修成績(經濟/會計/統計/微積分)
+#gradedata-不同學院學生成績(法律/商/公共事務/社會科學/人文/電機資訊)
+```
+
+
+Column 
+-------------------------------------
+    
+### Chart 1
+    
+```{r}
+
+```
+<object id= pic data="alldep_mean.svg" type="image/svg+xml" width="100%" >
+
+
+### Chart 2
+    
+```{r}
+```
+
+
+Column {.tabset}
+-------------------------------------
+   
+### Chart 3
+
+```{r}
+```   
+ 
+### Chart 4
+    
+```{r}
+```

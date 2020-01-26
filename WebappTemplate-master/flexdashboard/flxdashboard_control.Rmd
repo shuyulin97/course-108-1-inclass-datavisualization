@@ -1,0 +1,87 @@
+---
+title: "範本"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    css: null
+    includes:
+      in_header: ["external/in_header/header.html"]
+      before_body: ["external/before_body/before_body.html"]
+      after_body: ["external/after_body/after_body.html"]
+params:
+  output_filename: "flxdashboard_control.html"
+---
+
+```{r local serve, eval=F, echo=F}
+servr::daemon_stop(
+  which=servr::daemon_list()
+)
+servr::httd(dir=".",port=8000,initpath=params$output_filename)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message=F, warning=F)
+library(flexdashboard);library(dplyr)
+library(widgetframe)
+source("./R/support.R")
+```
+
+控制台 {.sidebar}
+------------------------
+
+### 引入bs framework html
+
+```{r, eval=F, echo=FALSE}
+"./bsHTML/bsHTML_flxdb.html" %>%
+  to_frameableHTML(regularHTML = T) # 非htmlwidget要設T
+```
+
+<div id="bsControl" width="100%" height="100%"></div>
+<script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+<script>
+    var pymParent = new pym.Parent("bsControl", "bsHTML/bsHTML_flxdb.html", {});
+</script>
+ 
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### 使用flxdashboard framework呈現htmlwidget
+
+```{r}
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+   geom_point() + geom_smooth()
+pltly_p0 <- ggplotly(p)
+pltly_p0
+```
+
+### 使用其他framework呈現htmlwidget
+
+
+<iframe
+  src = "mtHTML/mtHTML_plotly.html"
+  scrolling = "no" 
+  seamless = "seamless"
+  frameBorder = "0"
+  width="100%"
+  height="100%"></iframe>
+
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart C
+
+```{r}
+library(leaflet)
+library(widgetframe)
+l <- leaflet() %>% addTiles()
+htmlwidgets::saveWidget(frameableWidget(l),'leaflet.html')
+```
+
+<div id="leaflet"></div>
+<script>
+    var pymParent = new pym.Parent('leaflet', 'leaflet.html', {});
+</script>

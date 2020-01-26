@@ -1,0 +1,144 @@
+---
+title: "Bootstrap 4 HTML"
+output: 
+  html_document:
+    theme: null
+    highlight: null
+    mathjax: null
+    self_contained: false
+    includes:
+      in_header: "external/in_header/header.html"
+      before_body: "external/before_body/before_body.html"
+      after_body: "external/after_body/after_body.html"
+params:
+  output_filename: "bsHTML.html"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+此模版產生一個使用 Bootstrap 4 framework的html檔。
+
+## body內容範例
+
+### R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+### Javascript
+
+所有javascript在測試過沒問題後，建議把它們都移至`./js/init.js`檔案裡。
+
+### SVG
+引入`assets/party.svg`:
+
+  * 調整圖大小請改width. 
+
+<object id="myObject" data="assets/party.svg" type="image/svg+xml" width="10%"></object>
+
+### JSON
+
+```{r, eval=T, echo=F}
+# 產生外部json資料，但不出現在html裡
+cars %>%
+  jsonlite::toJSON() %>%  ## (1)
+  writeLines("./assets/cars.json") ## (2)
+```
+
+
+```{r, eval=T, echo=F}
+# 在html嵌入外部json
+htmltools::includeScript(
+  "./assets/cars.json",
+  type="application/json",
+  id="myJson"
+)
+```
+
+```{js, eval=T, echo=F}
+// 引入json成為JavaScript data, jsData.
+var jsData=document.getElementById('myJson').innerHTML;
+jsData=JSON.parse(jsData);
+```
+
+或以html語法直接寫在R Markdown: 
+
+<script type="text/javascript">
+// 引入json成為JavaScript data, jsData2.
+var jsData2=document.getElementById('myJson').innerHTML;
+jsData2=JSON.parse(jsData);
+</script>
+
+### HTML CSS
+
+  * 此部份內容還是建議以html語法寫在'external/in_header/header.html'檔案裡。
+  
+```{css, eval=T, echo=F}
+.exampleClass {
+  background-color: aliceblue;
+  height: 50px;
+  width: 50px;
+}
+```
+
+或以html語法直接寫在R Markdown: 
+
+<style>
+.exampleClass2 {
+  background-color: pink;
+  height: 50px;
+  width: 50px;
+}
+</style>
+
+### HTML element
+直接以html語法寫在R Markdown: 
+
+<div id="myDiv" class="exampleClass"></div>
+
+<div id="myDiv2" class="exampleClass2"></div>
+
+### Bootstrap 4
+
+  * https://getbootstrap.com/docs/4.4/getting-started/introduction/
+
+  * 不要直接剪貼bs4 html code在主Rmd檔內，而是另外存在外部`.html`檔再以下面方式引入——因為RMarkdown對於「內縮兩次以上」的文字就不會以html code來處理。
+  
+  * 以下範例來自Carousel with controls: https://getbootstrap.com/docs/4.4/components/carousel/
+
+```{r, eval=T, echo=F}
+htmltools::includeHTML("external/within_body/bsContent_flxdb.html")
+```
+
+
+## 不同情境使用
+以下各段code chunk在knit時並不會執行，只有在各別按執行鈕時執行
+
+### local serve
+執行完後，按Viewer panel的跳出鈕會在browser以local serve方式預覽文件：
+```{r local serve, eval=F, echo=F}
+servr::daemon_stop(
+  which=servr::daemon_list()
+)
+servr::httd(dir=".",port=8000,initpath=params$output_filename)
+```
+
+### 加html在head
+
+```{r html inside head, eval=F, echo=FALSE}
+file.edit("external/in_header/head.html")
+```
+
+### 加html在after_body
+
+```{r html after body, eval=F, echo=FALSE}
+file.edit("external/after_body/after_body.html")
+```

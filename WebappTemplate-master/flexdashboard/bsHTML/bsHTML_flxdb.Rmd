@@ -1,0 +1,32 @@
+---
+title: "Bootstrap 4 HTML"
+output: 
+  html_document:
+    theme: null
+    highlight: null
+    mathjax: null
+    self_contained: false
+    includes:
+      in_header: "external/in_header/header.html"
+      before_body: "external/before_body/before_body.html"
+      after_body: "external/after_body/after_body.html"
+params:
+  output_filename: "bsHTML_flxdb.html"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(dplyr)
+```
+
+```{r, eval=T, echo=F}
+htmltools::includeHTML("external/within_body/bsContent_flxdb.html")
+```
+
+
+```{r local serve, eval=F, echo=F}
+servr::daemon_stop(
+  which=servr::daemon_list()
+)
+servr::httd(dir=".",port=8000,initpath=params$output_filename)
+```
